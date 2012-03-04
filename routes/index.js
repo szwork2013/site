@@ -9,6 +9,8 @@ exports.index = home.index;
 
 var site = require('../controllers/site');
 exports.site = site.index;
+exports.siteAdd = site.add;
+exports.siteList = site.list;
 
 var login = require('../controllers/login');
 exports.login = login.index;

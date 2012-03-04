@@ -34,7 +34,9 @@ app.get('/', routes.index);
 
 app.all('/login', routes.login);
 
-app.get('/site', routes.site);
+app.get('/site/overview', routes.site);
+app.all('/site/add', routes.siteAdd);
+app.get('/site/list/:type?', routes.siteList);
 
 app.listen(config.port);
 console.log("App listening on port %d in %s mode", app.address().port, app.settings.env);

@@ -4,10 +4,20 @@
  * MIT Licensed
  */
 
-exports.index = function(req, res) {
-  res.send('123');
+var util = require('util');
+
+exports.index = function(req, res){
+  res.render('site/index');
 };
 
 exports.add = function(req, res){
+  if (req.method === 'POST') {
+    res.send(util.inspect(req.body));
+  } else {
+    res.render('site/add');
+  }
+};
 
+exports.list = function(req, res){
+  res.render('site/list');
 };
