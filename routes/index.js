@@ -4,16 +4,22 @@
  * MIT Licensed
  */
 
-var home = require('../controllers/home');
-exports.index = home.index;
+/**
+ * web index
+ */
+exports.index = require('../controllers/home');
 
-var site = require('../controllers/site');
-exports.site = site.index;
-exports.siteAdd = site.add;
-exports.siteList = site.list;
+/**
+ * site
+ */
+exports.site = require('../controllers/site');
 
-var login = require('../controllers/login');
-exports.login = login.index;
+/**
+ * login
+ */
+exports.login = require('../controllers/login');
 
-var tag = require('../controllers/tag');
-exports.tag = tag.index;
+/**
+ * tag
+ */
+exports.tag = require('../controllers/tag');

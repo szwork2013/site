@@ -17,7 +17,7 @@ app.configure(function(){
   app.register('.html',require('ejs'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({secret: config.sessionSecret}));
+  app.use(express.session({key: config.session.key, secret: config.session.secret}));
   app.use(app.router);
 });
 
@@ -32,11 +32,14 @@ app.configure('production', function () {
 
 app.get('/', routes.index);
 
-app.all('/login', routes.login);
+app.get('/login', routes.login.index);
+app.post('/login', routes.login.index);
 
-app.get('/site/overview', routes.site);
-app.all('/site/add', routes.siteAdd);
-app.get('/site/list/:type?', routes.siteList);
+app.get('/site/overview', routes.site.index);
+app.all('/site/add', routes.site.add);
+app.all('/site/type', routes.site.type);
+app.get('/site/list/:type?', routes.site.list);
+app.get('/site', routes.site.index);
 
 app.listen(config.port);
 console.log("App listening on port %d in %s mode", app.address().port, app.settings.env);

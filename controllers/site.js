@@ -5,19 +5,34 @@
  */
 
 var util = require('util');
+var models = require('../models');
+var Site = models.Site;
+var Type = models.Type;
 
-exports.index = function(req, res){
+exports.index = function (req, res) {
+  console.log(req.session.user);
   res.render('site/index');
 };
 
-exports.add = function(req, res){
+exports.add = function (req, res) {
   if (req.method === 'POST') {
-    res.send(util.inspect(req.body));
+    res.send(util.inspect(new Site()));
   } else {
     res.render('site/add');
   }
 };
 
-exports.list = function(req, res){
+exports.list = function (req, res) {
   res.render('site/list');
 };
+
+exports.type = function (req, res) {
+
+  ['妇科', '男科', '皮肤病'].forEach(function (name) {
+    var type = new Type();
+    type.name = name;
+    type.save();
+  });
+
+  res.send('OK');
+}

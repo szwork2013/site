@@ -4,13 +4,21 @@
  * MIT Licensed
  */
 
-var Schema = require('mongoose').Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var SiteSchema = new Schema({
-  name: {type: String},
- 	domain: {type: String, index:true},
-  path: {type: String},
- 	ip: {type: String}
+  name: {type: String, required: true},
+  domain: {type: String, required: true, index: true, lowercase: true, trim: true},
+  path: {type: String, required: true, lowercase: true, trim: true},
+  ip: String,
+  type: {type: Number, required: true},
+  keyword: String,
+  description: String,
+  urltype: String,
+  template: String,
+  advertment: String,
+  founded: String
 });
 
-mongoose.model('Site', SiteSchema);
+exports.Site = mongoose.model('Site', SiteSchema);

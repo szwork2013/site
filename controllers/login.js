@@ -5,14 +5,21 @@
  */
 
 var util = require('util');
+var config = require('../config').config;
 
 exports.index = function (req, res) {
-  var method = req.method.toLowerCase();
-  if (method === 'get') {
-    req.session.auth = 'asdad';
+  if (req.method === 'GET') {
     res.render('login');
   }
   else {
-    res.send(util.inspect(req.session.auth));
+    var username = req.body.username;
+    var password = req.body.password;
+
+    if (username === config.admin.username && password === config.admin.password) {
+      req.session.user = username;
+      res.redirect('/site');
+    } else {
+      res.redirect('/login');
+    }
   }
 };
