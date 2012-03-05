@@ -15,4 +15,4 @@ mongoose.connect(config.db, function (err) {
 });
 
 exports.Site = require('./site').Site;
-exports.Type = require('./site').Type;
+exports.Type = require('./type').Type;

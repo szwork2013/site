@@ -10,7 +10,6 @@ var Site = models.Site;
 var Type = models.Type;
 
 exports.index = function (req, res) {
-  console.log(req.session.user);
   res.render('site/index');
 };
 
@@ -28,11 +27,16 @@ exports.list = function (req, res) {
 
 exports.type = function (req, res) {
 
+/*
   ['妇科', '男科', '皮肤病'].forEach(function (name) {
     var type = new Type();
     type.name = name;
     type.save();
   });
-
-  res.send('OK');
+*/
+  var type = new Type();
+  type.name = '123';
+  type.save(function(){
+    res.send('OK');
+  });
 }
