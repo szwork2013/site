@@ -1,4 +1,7 @@
 <h2>男科列表</h2>
+<div class="row">
+
+</div>
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
@@ -17,9 +20,25 @@
     </tr>
     </thead>
     <tbody>
+    <% sites.forEach(function(site){ %>
     <tr>
+        <td><%= site.name %></td>
+        <td><a href="<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
+        <td><%= site.ip %></td>
+        <td><%= site.path %></td>
+        <td><a href="<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
+        <td><%= site.template %></td>
+        <td><%= site.urltype %></td>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+        <td><%= site.founded %></td>
+        <td>
+            <button rel="detail" class="btn">详情</button>
+            <button rel="edit" class="btn">修改</button>
+        </td>
     </tr>
-    <tr>
+    <% }); %>
     </tbody>
 </table>
 

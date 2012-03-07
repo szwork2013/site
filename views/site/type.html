@@ -1,0 +1,111 @@
+<div class="row-fluid">
+    <h2>网站类别</h2>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th class="yellow" style="width: 180px">类别名称</th>
+            <th class="blue" style="width: 200px">类别ID</th>
+            <th class="green">网站</th>
+            <th class="green" style="width: 200px">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% types.forEach(function(type){ %>
+        <tr>
+            <td><%= type.name %></td>
+            <td><%= type._id %></td>
+            <td>...</td>
+            <td>
+                <button rel="edit" class="btn" tid="<%= type._id %>" tname="<%= type.name %>">修改</button>
+                <button rel="delete" class="btn" tid="<%= type._id %>">删除</button>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <a id="add-type" class="btn btn-primary">添加类别</a>
+</div>
+<div id="form-modal" class="modal hide">
+    <div class="modal-body">
+        <form id="type-form" method="post" class="form-horizontal">
+            <fieldset>
+                <legend id="form-title">添加标签</legend>
+                <div class="control-group">
+                    <label class="control-label" for="name">类别名称</label>
+
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="name" name="name">
+                        <input type="hidden" class="input-xlarge" id="typeid" name="id">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="form-submit">提交</button>
+                    <button type="reset" class="btn" data-dismiss="modal">取消</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div id="confirm-modal" class="modal hide">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal">×</a>
+        <h3>提示信息</h3>
+    </div>
+    <div class="modal-body">
+        <p>你确认删除该内容吗？</p>
+    </div>
+    <div class="modal-footer">
+        <a id="delete-btn" href="#" class="btn btn-primary">确认</a>
+        <a href="#" class="btn" data-dismiss="modal">取消</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#add-type').click(function () {
+            showTypeForm({});
+        });
+
+        $("button[rel=edit]").click(function () {
+            var typeid = $(this).attr('tid');
+            var name = $(this).attr('tname');
+            showTypeForm({id: typeid, name: name});
+        });
+
+        var typeid;
+        $("button[rel=delete]").click(function () {
+            typeid = $(this).attr('tid');
+            $('#confirm-modal').modal();
+        });
+
+        $('#delete-btn').click(function(){
+            $('#confirm-modal').modal('hide');
+
+            $.ajax({
+                url: '/site/type/' + typeid,
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.ok) {
+                        document.location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
+        });
+
+        var showTypeForm = function (type) {
+            $('#type-form').get(0).reset();
+            if (type.id) {
+                $('#form-title').text('修改类别');
+                $('#name').val(type.name);
+                $('#typeid').val(type.id);
+            } else {
+                $('#typeid').val(type.id);
+                $('#form-title').text('添加类别');
+            }
+
+            $('#form-modal').modal();
+        };
+    });
+</script>

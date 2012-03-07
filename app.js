@@ -37,7 +37,7 @@ app.post('/login', routes.login.index);
 
 app.get('/site/overview', routes.site.index);
 app.all('/site/add', routes.site.add);
-app.all('/site/type', routes.site.type);
+app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
 app.get('/site', routes.site.index);
 
