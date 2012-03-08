@@ -13,66 +13,127 @@ exports.index = function (req, res) {
   res.render('site/index');
 };
 
-exports.add = function (req, res) {
+exports.add = function (req, res, next) {
   if (req.method === 'GET') {
     var site = new Site();
-    Type.find({}, function (err, types){
-      if (err) types = [];
+    Type.find({}, function (err, types) {
+      if (err) return next(err);
       res.render('site/edit', {site: site, types: types});
     });
   } else if (req.method === 'POST') {
     var site = new Site(req.body);
-    console.log(req.body);
-    site.save(function(err){
-      console.log(err);
+    site.save(function (err) {
+      if (err) return next(err);
       res.redirect('/site/list');
     });
   }
 };
 
+exports.edit = function (req, res, next) {
+  if (req.method === 'GET') {
+    var cb = new Combo(function (site, types) {
+      if (site[0] || types[0]) return next(site[0] || types[0]);
+      res.render('site/edit', {site: site[1], types: types[1]});
+    });
+
+    Site.findById(req.params.id, cb.add());
+    Type.find({}, cb.add());
+
+  } else if (req.method === 'POST') {
+    Site.findById(req.body.id, function(err, site){
+      if (err) return next(err);
+
+      var modifySiteConf = false;
+
+      if (site.domain !== res.body.domain || site.path !== res.body.path) {
+        modifySiteConf = true;
+      }
+
+      site.name = res.body.name;
+      site.domain = res.body.domain;
+      site.path = res.body.path;
+      site.ip = res.body.ip;
+      site.type = res.body.type;
+      site.keyword = res.body.keyword;
+      site.description = res.body.description;
+      site.urltype = res.body.urltype;
+      site.template = res.body.template;
+      site.advertment = res.body.advertment;
+
+      site.save(function(err){
+        if (err) return next(err);
+        res.redirect('/site/list/' + site.type);
+      });
+    });
+  }
+};
+
+exports.check = function (req, res) {
+  var type = req.param('type');
+  var value = req.param('value');
+
+  var query = {};
+  query[type] = value;
+
+  Site.count(query, function (err, count) {
+    if (err || count) {
+      res.send({exists: 1});
+
+    } else {
+      res.send({exists: 0});
+    }
+  });
+};
+
 exports.list = function (req, res) {
-  var cb = new Combo(function(sites, types) {
+  var cb = new Combo(function (sites, types) {
     res.render('site/list', {sites: sites[1], types: types[1]});
   });
 
   Site.find({}, cb.add());
-  Type.list({}, cb.add());
+  Type.list(cb.add());
 };
 
-exports.type = function (req, res) {
+exports.type = function (req, res, next) {
   if (req.method === 'GET') {
     Type.find({}, function (err, types) {
       res.render('site/type', {types: types});
     });
+
   } else if (req.method === 'POST') {
     var type = new Type();
     if (req.body.id) {
       Type.findById(req.body.id, function (err, type) {
         type.name = req.body.name;
         type.save(function (err) {
+          if (err) return next(err);
+
           res.redirect('/site/type');
         });
       });
     } else {
       type.name = req.body.name;
       type.save(function (err) {
+        if (err) return next(err);
+
         res.redirect('/site/type');
       });
     }
+
   } else {
     Type.findById(req.params.id, function (err, type) {
       if (err || !type) {
-        res.json({ok: 0, message: '类别不存在，删除失败！'});
+        res.send({ok: 0, message: '类别不存在，删除失败！'});
         return;
       }
 
       type.remove(function (err) {
         if (err) {
-          res.json({ok: 0, message: '类别删除失败：' + err.message});
+          res.send({ok: 0, message: '类别删除失败：' + err.message});
           return;
         }
 
-        res.json({ok: 1, message: '删除成功。'});
+        res.send({ok: 1, message: '删除成功。'});
       });
     });
   }

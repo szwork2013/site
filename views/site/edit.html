@@ -23,7 +23,8 @@
 
                 <div class="controls">
                     <% if(site.domain){ %>
-                    <input type="text" class="input-xlarge" id="domain" name="domain" value="<%= site.domain %>">
+                    <input type="text" class="input-xlarge" id="domain" name="domain" origin="<%= site.domain %>"
+                           value="<%= site.domain %>">
                     <% }else{ %>
                     <input type="text" class="input-xlarge" id="domain" name="domain">
                     <% } %>
@@ -35,7 +36,8 @@
 
                 <div class="controls">
                     <% if(site.path){ %>
-                    <input type="text" class="input-xlarge" id="path" name="path" value="<%= site.path %>">
+                    <input type="text" class="input-xlarge" id="path" origin="<%= site.path %>" name="path" value
+                            ="<%= site.path %>">
                     <% }else{ %>
                     <input type="text" class="input-xlarge" id="path" name="path">
                     <% } %>
@@ -60,8 +62,8 @@
                 <div class="controls">
                     <select name="type">
                         <% types.forEach(function(type){ %>
-                        <option value="<%= type._id %>"<% if(type._id == site.type){ %> selected<% } %>><%= type.name
-                        %></option>
+                        <option value="<%= type._id %>"<% if(type._id.toString() == site.type){ %> selected<% }
+                        %>><%= type.name %></option>
                         <% }) %>
                     </select>
 
@@ -85,8 +87,7 @@
 
                 <div class="controls">
                     <% if(site.description){ %>
-                    <textarea class="input-xlarge" id="description" name="description" rows="4"><%= site.description
-                        %></textarea>
+                    <textarea class="input-xlarge" id="description" name="description" rows="4"><%= site.description %></textarea>
                     <% }else{ %>
                     <textarea class="input-xlarge" id="description" name="description" rows="4"></textarea>
                     <% } %>
@@ -131,9 +132,43 @@
                 </div>
             </div>
             <div class="form-actions">
+                <% if(site._id){ %>
+                <input type="hidden" name="id" value="<%= site._id %>"/>
+                <% } %>
                 <button type="submit" class="btn btn-primary">提交</button>
                 <button type="reset" class="btn">取消</button>
             </div>
         </fieldset>
     </form>
 </div>
+<script>
+$(function () {
+    $('#domain').change(function(){
+        var domain = $('#domain').val();
+        if (domain === '' || ($('#domain').attr('origin') === domain)) return false;
+        domain = domain.replace('http://', '').replace(/\/.*/, '');
+        if ($('#domain').val() !== domain) {
+            $('#domain').val(domain);
+        }
+
+        $.get('/site/check', {type: 'domain', value: domain}, function(result){
+            if (result.exists) {
+                alert('该域名已经存在！');
+                $('#domain').focus().val('');
+            }
+        });
+    });
+
+    $('#path').change(function(){
+        var path = $('#path').val();
+        if (path === '' || ($('#path').attr('origin') === path)) return false;
+
+        $.get('/site/check', {type: 'path', value: path}, function(result){
+            if (result.exists) {
+                alert('该目录已经被其他网站占用！');
+                $('#path').focus().val('');
+            }
+        });
+    });
+});
+</script>

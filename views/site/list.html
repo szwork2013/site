@@ -23,10 +23,10 @@
     <% sites.forEach(function(site){ %>
     <tr>
         <td><%= site.name %></td>
-        <td><a href="<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
+        <td><a href="http://<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
         <td><%= site.ip %></td>
         <td><%= site.path %></td>
-        <td><a href="<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
+        <td><%= types[site.type]['name'] %></td>
         <td><%= site.template %></td>
         <td><%= site.urltype %></td>
         <td>...</td>
@@ -34,8 +34,8 @@
         <td>...</td>
         <td><%= site.founded %></td>
         <td>
-            <button rel="detail" class="btn">详情</button>
-            <button rel="edit" class="btn">修改</button>
+            <a href="/site/detail/<%= site._id %>" class="btn">详情</a>
+            <a href="/site/edit/<%= site._id %>" class="btn">修改</a>
         </td>
     </tr>
     <% }); %>
