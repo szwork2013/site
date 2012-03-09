@@ -11,5 +11,7 @@ exports.config = {
   port: 8000,
   db: 'mongodb://127.0.0.1/sites',
   session: {key: 'sid', secret: 'siteadmin'},
-  admin: {username: 'admin', password: '123'}
+  admin: {username: 'admin', password: '123'},
+  wwwroot: '/web/wwwroot',
+  nginx: {sbin: 'nginx', pid: '/usr/local/webserver/nginx/logs/nginx.pid'}
 };

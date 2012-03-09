@@ -36,11 +36,12 @@ app.dynamicHelpers({
   }
 });
 
-app.get('/', routes.index);
+app.error(function (err, req, res, next) {
+  next(err);
+});
 
 app.get('/login', routes.login.index);
 app.post('/login', routes.login.index);
-
 app.get('/site/overview', routes.site.index);
 app.all('/site/add', routes.site.add);
 app.all('/site/edit/:id', routes.site.edit);
@@ -48,6 +49,8 @@ app.all('/site/check', routes.site.check);
 app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
 app.get('/site', routes.site.index);
+app.get('/', routes.home.index);
+
 
 app.listen(config.port);
 console.log("App listening on port %d in %s mode", app.address().port, app.settings.env);

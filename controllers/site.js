@@ -40,27 +40,27 @@ exports.edit = function (req, res, next) {
     Type.find({}, cb.add());
 
   } else if (req.method === 'POST') {
-    Site.findById(req.body.id, function(err, site){
+    Site.findById(req.body.id, function (err, site) {
       if (err) return next(err);
 
       var modifySiteConf = false;
 
-      if (site.domain !== res.body.domain || site.path !== res.body.path) {
+      if (site.domain !== req.body.domain || site.path !== req.body.path) {
         modifySiteConf = true;
       }
 
-      site.name = res.body.name;
-      site.domain = res.body.domain;
-      site.path = res.body.path;
-      site.ip = res.body.ip;
-      site.type = res.body.type;
-      site.keyword = res.body.keyword;
-      site.description = res.body.description;
-      site.urltype = res.body.urltype;
-      site.template = res.body.template;
-      site.advertment = res.body.advertment;
+      site.name = req.body.name;
+      site.domain = req.body.domain;
+      site.path = req.body.path;
+      site.ip = req.body.ip;
+      site.type = req.body.type;
+      site.keyword = req.body.keyword;
+      site.description = req.body.description;
+      site.urltype = req.body.urltype;
+      site.template = req.body.template;
+      site.advertment = req.body.advertment;
 
-      site.save(function(err){
+      site.save(function (err) {
         if (err) return next(err);
         res.redirect('/site/list/' + site.type);
       });

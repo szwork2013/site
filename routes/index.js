@@ -7,7 +7,7 @@
 /**
  * web index
  */
-exports.index = require('../controllers/home');
+exports.home = require('../controllers/home');
 
 /**
  * site
