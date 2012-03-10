@@ -24,7 +24,12 @@ exports.add = function (req, res, next) {
     var site = new Site(req.body);
     site.save(function (err) {
       if (err) return next(err);
-      res.redirect('/site/list');
+
+      nginx.conf(site, function (err) {
+        if (err) return next(err);
+
+        res.redirect('/site/list/' + site.type);
+      });
     });
   }
 };
@@ -62,7 +67,12 @@ exports.edit = function (req, res, next) {
 
       site.save(function (err) {
         if (err) return next(err);
-        res.redirect('/site/list/' + site.type);
+
+        nginx.conf(site, function (err) {
+          if (err) return next(err);
+
+          res.redirect('/site/list/' + site.type);
+        });
       });
     });
   }

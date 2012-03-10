@@ -49,6 +49,7 @@ app.all('/site/check', routes.site.check);
 app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
 app.get('/site', routes.site.index);
+app.get('/server', routes.server.index);
 app.get('/', routes.home.index);
 
 

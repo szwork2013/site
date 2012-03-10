@@ -23,3 +23,8 @@ exports.login = require('../controllers/login');
  * tag
  */
 exports.tag = require('../controllers/tag');
+
+/**
+ * server
+ */
+exports.server = require('../controllers/server');
