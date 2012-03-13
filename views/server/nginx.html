@@ -1,0 +1,46 @@
+<% if(action === 'start'){ %>
+<% if(err){ %>
+<div class="alert alert-error">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx启动失败</h4>
+    <p>错误信息<%= err %> <a class="btn btn-mini btn-danger" href="/server/killall">强制启动</a></p>
+</div>
+<% }else{ %>
+<div class="alert alert-success">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx启动成功</h4>
+</div>
+<% } %>
+
+<% }else if(action === 'restart'){ %>
+
+<% if(err){ %>
+<div class="alert alert-error">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx重启失败</h4>
+
+    <p>错误信息<%= err %> <a class="btn btn-mini btn-danger" href="/server/killall">强制重启</a></p>
+</div>
+<% }else{ %>
+<div class="alert alert-success">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx重启成功</h4>
+</div>
+<% } %>
+
+<% }else{ %>
+
+<% if(err){ %>
+<div class="alert alert-error">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx强制启动失败</h4>
+    <p>错误信息<%= err %></p>
+</div>
+<% }else{ %>
+<div class="alert alert-success">
+    <a class="close" href="/server">×</a>
+    <h4 class="alert-heading">nginx启动成功</h4>
+</div>
+<% } %>
+
+<% } %>

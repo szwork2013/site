@@ -13,6 +13,6 @@ exports.config = {
   session: {key: 'sid', secret: 'siteadmin'},
   admin: {username: 'admin', password: '123'},
   wwwroot: '/web/wwwroot',
-  logpath: '/web/logs/site',
-  nginx: {sbin: 'nginx', pid: '/usr/local/webserver/nginx/logs/nginx.pid', conf: __dirname}
+  logpath: '/var/log/nginx',
+  nginx: {sbin: 'nginx', pid: '/var/log/nginx/nginx.pid', conf: '/etc/nginx/conf/vhosts'}
 };

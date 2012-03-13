@@ -10,7 +10,7 @@ var spawn = require('child_process').spawn;
 var ejs = require('ejs');
 var config = require('../config.js').config;
 
-exports.dos = function (action, cb) {
+exports.action = function (action, cb) {
   if (action === 'start') {
     var nginx = spawn(config.nginx.sbin);
   } else {
@@ -36,18 +36,13 @@ exports.dos = function (action, cb) {
         cb(null);
       }
     } else {
-      cb(stdout + stderr, null);
+      cb(stdout + stderr);
     }
   });
 };
 
-exports.status = function (cb) {
-  if (path.existsSync(conf.pid)) {
-    var stat = fs.statSync(conf.pid);
-    cb(null, stat);
-  } else {
-    cb(new Error('server dose not running'));
-  }
+exports.status = function () {
+  return path.existsSync(config.nginx.pid) ? fs.statSync(config.nginx.pid).ctime : null;
 };
 
 exports.conf = function (site, cb) {
@@ -65,4 +60,15 @@ exports.conf = function (site, cb) {
     cb(null);
   });
 
+};
+
+exports.killall = function (cb) {
+  var nginx = spawn('killall', ['nginx']);
+  nginx.on('exit', function (code) {
+    if (code === 0) {
+      cb(null);
+    } else {
+      cb(new Error('强制重启nginx服务器失败!'));
+    }
+  });
 };

@@ -7,6 +7,7 @@
 var express = require('express');
 var config = require('./config').config;
 var routes = require('./routes');
+var util = require('./utils/util');
 
 var app = express.createServer();
 
@@ -30,6 +31,10 @@ app.configure('production', function () {
   app.use(express.errorHandler());
 });
 
+app.helpers({
+  util: util
+});
+
 app.dynamicHelpers({
   user: function (req, res) {
     return req.session.user ? req.session.user : 'user';
@@ -42,7 +47,6 @@ app.error(function (err, req, res, next) {
 
 app.get('/login', routes.login.index);
 app.post('/login', routes.login.index);
-app.get('/site/overview', routes.site.index);
 app.all('/site/add', routes.site.add);
 app.all('/site/edit/:id', routes.site.edit);
 app.all('/site/check', routes.site.check);
@@ -50,9 +54,11 @@ app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
 app.get('/site', routes.site.index);
 app.get('/server', routes.server.index);
+app.get('/server/start', routes.server.start);
+app.get('/server/restart', routes.server.restart);
+app.get('/server/killall', routes.server.killall);
 app.get('/', routes.home.index);
 
 
 app.listen(config.port);
 console.log("App listening on port %d in %s mode", app.address().port, app.settings.env);
-

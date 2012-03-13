@@ -95,13 +95,16 @@ exports.check = function (req, res) {
   });
 };
 
-exports.list = function (req, res) {
-  var cb = new Combo(function (sites, types) {
-    res.render('site/list', {sites: sites[1], types: types[1]});
+exports.list = function (req, res, next) {
+  var curtype = req.params.type;
+
+  var cb = new Combo(function (sites, types, sitesByType) {
+    res.render('site/list', {curtype: curtype, sites: sites[1], types: types[1], typeos: types[2], sitesByType: sitesByType[1]});
   });
 
-  Site.find({}, cb.add());
+  Site.find(curtype ? {type: curtype} : {}, cb.add());
   Type.list(cb.add());
+  Type.sitesByType(cb.add());
 };
 
 exports.type = function (req, res, next) {
@@ -147,5 +150,9 @@ exports.type = function (req, res, next) {
       });
     });
   }
+
+};
+
+exports.detail = function (req, res){
 
 };
