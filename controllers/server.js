@@ -20,13 +20,13 @@ exports.start = function (req, res) {
 };
 
 exports.restart = function(req, res){
-  nginx.action('restart', function(err){
-    res.render('server/nginx', {action: 'restart', err: err});
+  nginx.action('reload', function(err){
+    res.render('server/nginx', {action: 'reload', err: err});
   });
 };
 
 exports.killall = function (req, res) {
-  nginx.action('killall', function (err) {
+  nginx.killall(function (err) {
     res.render('server/nginx', {action: 'killall', err: err});
   });
 };

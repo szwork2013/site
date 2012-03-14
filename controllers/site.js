@@ -8,6 +8,7 @@ var models = require('../models');
 var Site = models.Site;
 var Type = models.Type;
 var Combo = require('combo').Combo;
+var nginx = require('../server/nginx');
 
 exports.index = function (req, res) {
   res.render('site/index');
@@ -71,7 +72,14 @@ exports.edit = function (req, res, next) {
         nginx.conf(site, function (err) {
           if (err) return next(err);
 
-          res.redirect('/site/list/' + site.type);
+          var action = nginx.status() ? 'reload' : 'start';
+          nginx.action(action, function (err) {
+            if (err) {
+              res.render('message', {status: 0, message: '站点修改成功,更新nginx时发生错误' + err});
+            }else {
+              res.render('message', {status: 1, message: '站点修改成功', url: '/site/list/' + site.type});
+            }
+          });
         });
       });
     });
@@ -89,7 +97,8 @@ exports.check = function (req, res) {
     if (err || count) {
       res.send({exists: 1});
 
-    } else {
+    }
+    else {
       res.send({exists: 0});
     }
   });
@@ -124,7 +133,8 @@ exports.type = function (req, res, next) {
           res.redirect('/site/type');
         });
       });
-    } else {
+    }
+    else {
       type.name = req.body.name;
       type.save(function (err) {
         if (err) return next(err);
@@ -133,7 +143,8 @@ exports.type = function (req, res, next) {
       });
     }
 
-  } else {
+  }
+  else {
     Type.findById(req.params.id, function (err, type) {
       if (err || !type) {
         res.send({ok: 0, message: '类别不存在，删除失败！'});
@@ -153,6 +164,6 @@ exports.type = function (req, res, next) {
 
 };
 
-exports.detail = function (req, res){
+exports.detail = function (req, res) {
 
 };

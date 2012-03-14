@@ -19,7 +19,7 @@
             <td><%= util.bytes(os.freemem()) %> / <%= util.bytes(os.totalmem()) %></td>
         </tr>
         <tr>
-            <td>运行时间：</td>
+            <td>运行状态：</td>
             <td><%= util.timeOffset(os.uptime()) %></td>
         </tr>
     </table>
@@ -42,7 +42,7 @@
             <td><%= config.nginx.pid %></td>
         </tr>
         <tr>
-            <td>运行信息：</td>
+            <td>运行状态：</td>
             <td><% if(uptime){ %>
                 <%= util.timeOffset(uptime) %>
                 <a class="btn btn-mini btn-warning" href="/server/restart">重启</a>

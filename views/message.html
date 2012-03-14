@@ -1,0 +1,22 @@
+<% if(status){ %>
+<div class="alert alert-success">
+    <a class="close" href="javascript:history.back();">×</a>
+    <h4 class="alert-heading">成功提示</h4>
+    <% if(message){ %><p><%= message %></p><% } %>
+</div>
+<% }else{ %>
+<div class="alert alert-error">
+    <a class="close" href="javascript:history.back();">×</a>
+    <h4 class="alert-heading">失败提示</h4>
+    <% if(message){ %><p><%= message %></p><% } %>
+</div>
+<% } %>
+<script type="text/javascript">
+    setTimeout(function(){
+        <% if(url){ %>
+        document.location = <%= url %>;
+        <% }else{ %>
+        history.back();
+        <% } %>
+    }, 3000);
+</script>

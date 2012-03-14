@@ -12,7 +12,7 @@
 </div>
 <% } %>
 
-<% }else if(action === 'restart'){ %>
+<% }else if(action === 'reload'){ %>
 
 <% if(err){ %>
 <div class="alert alert-error">
@@ -44,3 +44,6 @@
 <% } %>
 
 <% } %>
+<script type="text/javascript">
+    setTimeout(function(){document.location = '/server'}, 3000);
+</script>
