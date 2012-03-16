@@ -5,7 +5,7 @@
  */
 
 exports.config = {
-  name: 'sitemanager',
+  name: '站点管理工具',
   description: '站点管理工具 By Node.js',
   host: '127.0.0.1',
   port: 8000,

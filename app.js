@@ -32,7 +32,8 @@ app.configure('production', function () {
 });
 
 app.helpers({
-  util: util
+  util: util,
+  name: config.name
 });
 
 app.dynamicHelpers({
@@ -52,6 +53,7 @@ app.all('/site/edit/:id', routes.site.edit);
 app.all('/site/check', routes.site.check);
 app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
+app.get('/site/detail/:domain', routes.domain.index);
 app.get('/site', routes.site.index);
 app.get('/server', routes.server.index);
 app.get('/server/start', routes.server.start);

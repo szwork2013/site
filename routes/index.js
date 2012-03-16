@@ -28,3 +28,8 @@ exports.tag = require('../controllers/tag');
  * server
  */
 exports.server = require('../controllers/server');
+
+/**
+ * domain
+ */
+exports.domain = require('../controllers/domain');
