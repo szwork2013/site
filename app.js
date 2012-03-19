@@ -17,6 +17,7 @@ app.configure(function () {
   app.set('view engine', 'html');
   app.register('.html', require('ejs'));
   app.use(express.bodyParser());
+  app.use(express.methodOverride())
   app.use(express.cookieParser());
   app.use(express.session({key: config.session.key, secret: config.session.secret}));
   app.use(app.router);
@@ -33,7 +34,7 @@ app.configure('production', function () {
 
 app.helpers({
   util: util,
-  name: config.name
+  title: config.name
 });
 
 app.dynamicHelpers({
@@ -55,6 +56,10 @@ app.all('/site/type/:id?', routes.site.type);
 app.get('/site/list/:type?', routes.site.list);
 app.get('/site/detail/:domain', routes.domain.index);
 app.get('/site', routes.site.index);
+app.all('/domain/:domain/category', routes.domain.category);
+app.all('/domain/:domain/article', routes.domain.article);
+app.all('/domain/:domain/tag', routes.domain.tag);
+app.get('/domain/:domain', routes.domain.index);
 app.get('/server', routes.server.index);
 app.get('/server/start', routes.server.start);
 app.get('/server/restart', routes.server.restart);

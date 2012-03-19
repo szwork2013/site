@@ -5,7 +5,7 @@
  */
 
 exports.config = {
-  name: '站点管理工具',
+  name: '云平台站点管理系统',
   description: '站点管理工具 By Node.js',
   host: '127.0.0.1',
   port: 8000,

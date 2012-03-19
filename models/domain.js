@@ -14,10 +14,10 @@ exports.ArticleSchema = new Schema({
   keyword: {type: String},
   description: {type: String},
   tag: {type: [ObjectId]},
-  dateline: {type: Date, default: Date.now},
+  dateline: {type: Date, 'default': Date.now},
   category: {type: ObjectId, required: true},
-  views: {type: Number, default: 0},
-  recommend: {type: Boolean, default: false},
+  views: {type: Number, 'default': 0},
+  recommend: {type: Boolean, 'default': false},
   outurl: {type: String}
 });
 

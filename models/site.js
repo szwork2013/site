@@ -17,10 +17,10 @@ var SiteSchema = new Schema({
   type: {type: ObjectId, required: true},
   keyword: {type: String},
   description: {type: String},
-  urltype: {type: String, default: 'id', enum: ['id', 'py', 'abbr', 'cn']},
-  template: {type: String, default: 'default'},
+  urltype: {type: String, 'default': 'id', enum: ['id', 'py', 'abbr', 'cn']},
+  template: {type: String, 'default': 'default'},
   advertment: {type: String},
-  founded: {type: String, default: function(){
+  founded: {type: String, 'default': function(){
     var now = new Date();
     return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
   }}
