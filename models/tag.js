@@ -6,13 +6,10 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
 
 var TagSchema = new Schema({
-  name: {type: String, required: true, trim: true},
-  url: {type: String, unique: true, required: true, trim: true},
-  keyword: {type: String},
-  description: {type: String},
+  name: {type: String, unique: true, required: true, trim: true},
+  url: {type: String, unique: true, required: true, trim: true, lowercase: true},
   external: {type: String}
 });
 

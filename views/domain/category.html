@@ -1,153 +1,165 @@
-<div class="row">
-    <h3>站点：<%= site.name %></h3>
-    <ul id="tab" class="nav nav-tabs">
-        <li><a href="../">概况</a></li>
-        <li><a href="article/">文章</a></li>
-        <li class="active"><a href="category/">栏目</a></li>
-        <li><a href="tag/">标签</a></li>
-        <li><a href="setting/">配置</a></li>
-    </ul>
+<h3>站点：<%= site.name %></h3>
+<ul id="tab" class="nav nav-tabs">
+  <li><a href="../">概况</a></li>
+  <li><a href="article/">文章</a></li>
+  <li class="active"><a href="category/">栏目</a></li>
+  <li><a href="tag/">标签</a></li>
+  <li><a href="setting/">配置</a></li>
+</ul>
 
-    <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>栏目名称</th>
-            <th style="width:200px;">栏目ID</th>
-            <th>URL</th>
-            <th>关键词</th>
-            <th>标签</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% categories.forEach(function(category){ %>
-        <tr>
-            <td><a href="http://<%= site.domain %><%= category.url %>"><%= category.name %></a></td>
-            <td><%= category._id %></td>
-            <td><%= category.url %></td>
-            <td><%= category.keyword %></td>
-            <td></td>
-            <td>
-                <button rel="edit" class="btn">修改</button>
-                <button rel="delete" class="btn">删除</button>
-            </td>
-        </tr>
-        <% }); %>
-        </tbody>
-    </table>
-    <div>
-        <button id="add-btn" class="btn btn-primary">添加栏目 »</button>
-    </div>
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th>栏目名称</th>
+    <th style="width:200px;">栏目ID</th>
+    <th>URL</th>
+    <th>关键词</th>
+    <th>标签</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% categories.forEach(function(category){ %>
+  <tr id="<%= category._id %>">
+    <td><a href="http://<%= site.domain %><%= category.url %>"><%= category.name %></a></td>
+    <td><%= category._id %></td>
+    <td><%= category.url %></td>
+    <td><%= category.keyword %></td>
+    <td></td>
+    <td>
+      <button rel="edit" class="btn">修改</button>
+      <button rel="delete" class="btn">删除</button>
+    </td>
+  </tr>
+  <% }); %>
+  </tbody>
+</table>
+<div>
+  <button id="add-btn" class="btn btn-primary">添加栏目 »</button>
 </div>
 <div id="form-modal" class="modal hide" style="max-height: 530px;">
-    <form id="form" method="post" class="form-horizontal" style="margin: 0">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>
+  <form id="form" method="post" class="form-horizontal" style="margin: 0">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
 
-            <h3>添加栏目</h3>
+      <h3 id="form-title">添加栏目</h3>
+    </div>
+    <div class="modal-body">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="name">栏目名字</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="name" name="name">
+          </div>
         </div>
-        <div class="modal-body">
-            <fieldset>
-                <div class="control-group">
-                    <label class="control-label" for="name">栏目名字</label>
+        <div class="control-group">
+          <label class="control-label" for="title">栏目标题</label>
 
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="name" name="name">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="title">栏目标题</label>
-
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="title" name="title">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="url">URL</label>
-
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="url" name="url">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="keyword">关键词</label>
-
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="keyword" name="keyword">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="description">描述</label>
-
-                    <div class="controls">
-                        <textarea class="input-xlarge" id="description" name="description" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="template">模板</label>
-
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="template" name="template">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="advertment">广告</label>
-
-                    <div class="controls">
-                        <textarea class="input-xlarge" id="advertment" name="advertment" rows="3"></textarea>
-                    </div>
-                </div>
-            </fieldset>
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="title" name="title">
+          </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal">取消</button>
-            <button type="submit" class="btn btn-primary">提交</button>
+        <div class="control-group">
+          <label class="control-label" for="url">URL</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="url" name="url">
+          </div>
         </div>
-    </form>
+        <div class="control-group">
+          <label class="control-label" for="keyword">关键词</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="keyword" name="keyword">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="description">描述</label>
+
+          <div class="controls">
+            <textarea class="input-xlarge" id="description" name="description" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="template">模板</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="template" name="template">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="advertment">广告</label>
+
+          <div class="controls">
+            <textarea class="input-xlarge" id="advertment" name="advertment" rows="3"></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">取消</button>
+      <button type="submit" class="btn btn-primary">提交</button>
+    </div>
+  </form>
 </div>
 <div id="delete-form-modal" class="modal hide">
-    <form method="post" style="margin: 0">
-        <input type="hidden" name="_method" value="delete">
-        <input type="hidden" id="delete-id" name="_id" value="0">
+  <form method="post" style="margin: 0">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" id="delete-id" name="id" value="0">
 
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
 
-            <h3>删除栏目</h3>
-        </div>
-        <div class="modal-body">
-            <p>你确定删除栏目: 妇科</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal">取消</button>
-            <button type="submit" class="btn btn-primary">确认</button>
-        </div>
-    </form>
+      <h3>删除栏目</h3>
+    </div>
+    <div class="modal-body">
+      <p>你确定删除栏目: <span id="delete-name" class="label label-warning">???</span></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">取消</button>
+      <button type="submit" class="btn btn-primary">确认</button>
+    </div>
+  </form>
 </div>
-
 <script type="text/javascript">
-    var showForm = function (category) {
-        $('#form').get(0).reset();
-        //$('#form').data('_id', 0);
-        $('#form-title').text('添加栏目');
-        if (category._id) {
-            $('#tag-form').data('_id', category._id);
-            $('#form-title').text('修改栏目');
-            $('#name').val(category.name);
-            $('#url').val(category.url);
-            $('#external').val(tag.external);
-            $('#keyword').val(tag.keyword);
-            $('#description').val(tag.description);
-        }
+  var showForm = function (item) {
+    if (item._id) {
+      $('#form').prepend('<input type="hidden" name="_method" value="put">');
+      $('#form').prepend('<input type="hidden" name="id" value="' +item._id + '">');
+      $('#form-title').text('修改栏目 - ' + item.name);
+      $('#name').val(item.name);
+      $('#title').val(item.title);
+      $('#url').val(item.url);
+      $('#keyword').val(item.keyword);
+      $('#description').val(item.description);
+      $('#template').val(item.template);
+      $('#advertment').val(item.advertment);
+    } else {
+      $("#form input[type='hidden']").remove();
+      $('#form-title').text('添加栏目');
+      $('#form').get(0).reset();
+    }
 
-        $('#form-modal').modal({backdrop: false});
-    };
+    $('#form-modal').modal({backdrop: false});
+  };
 
-    $('#add-btn').click(function () {
-        showForm({});
-    });
+  $('#add-btn').click(function () {
+    showForm({});
+  });
 
-    $("button[rel=delete]").click(function () {
-        $('#delete-form-modal').modal();
-    });
+  $("button[rel=edit]").click(function () {
+
+    var id = $(this).parents('tr').attr('id');
+    showForm(model[id]);
+  });
+
+  $("button[rel=delete]").click(function () {
+    var id = $(this).parents('tr').attr('id');
+    $('#delete-category-name').text($('#'+id+' a').text());
+    $('#delete-id').val(id);
+    $('#delete-form-modal').modal();
+  });
+
+  var model = <%- JSON.stringify(categoryos) %>;
 </script>

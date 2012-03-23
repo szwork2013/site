@@ -17,7 +17,7 @@ var TypeSchema = new Schema({
 TypeSchema.statics.list = function (cb) {
   this.find({}, function (err, types) {
     if (err) return cb(err, null);
-    _types = {};
+    var _types = {};
     types.forEach(function (type) {
       _types[type._id] = type;
     });

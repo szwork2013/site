@@ -7,7 +7,7 @@
 var models = require('../models');
 var Site = models.Site;
 var Type = models.Type;
-var Combo = require('combo').Combo;
+var combo = require('combo').combo;
 var nginx = require('../server/nginx');
 var path = require('path');
 var fs = require('fs');
@@ -22,6 +22,7 @@ exports.add = function (req, res, next) {
     var site = new Site();
     Type.find({}, function (err, types) {
       if (err) return next(err);
+
       res.render('site/edit', {site: site, types: types});
     });
   } else if (req.method === 'POST') {
@@ -48,9 +49,10 @@ exports.add = function (req, res, next) {
 
 exports.edit = function (req, res, next) {
   if (req.method === 'GET') {
-    var cb = new Combo(function (site, types) {
-      if (site[0] || types[0]) return next(site[0] || types[0]);
-      res.render('site/edit', {site: site[1], types: types[1]});
+    var cb = combo(function (err, site, types) {
+      if (err) return next(err);
+
+      res.render('site/edit', {site: site, types: types});
     });
 
     Site.findById(req.params.id, cb.add());
@@ -138,9 +140,10 @@ exports.check = function (req, res) {
 
 exports.list = function (req, res, next) {
   var curtype = req.params.type;
+  var cb = combo(function (err, sites, types, sitesByType) {
+    if (err) return next(err);
 
-  var cb = new Combo(function (sites, types, sitesByType) {
-    res.render('site/list', {curtype: curtype, sites: sites[1], types: types[1], typeos: types[2], sitesByType: sitesByType[1]});
+    res.render('site/list', {curtype: curtype, sites: sites, types: types[0], typeos: types[1], sitesByType: sitesByType});
   });
 
   Site.find(curtype ? {type: curtype} : {}).desc('_id').run(cb.add());

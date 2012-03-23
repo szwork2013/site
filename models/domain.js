@@ -21,7 +21,7 @@ exports.ArticleSchema = new Schema({
   outurl: {type: String}
 });
 
-exports.CategorySchema = new Schema({
+var CategorySchema = new Schema({
   name: {type: String, required: true, trim: true},
   title: {type: String, required: true, trim: true},
   keyword: {type: String},
@@ -31,6 +31,21 @@ exports.CategorySchema = new Schema({
   template: {type: String},
   advertment: {type: String}
 });
+
+CategorySchema.statics.list = function (cb) {
+  this.find({}, function (err, data) {
+    if (err) return cb(err, null);
+
+    var categories = {};
+    data.forEach(function (category) {
+      categories[category._id] = category;
+    });
+
+    cb(null, data, categories);
+  });
+};
+
+exports.CategorySchema = CategorySchema;
 
 exports.TagSchema = new Schema({
   name: {type: String, required: true, trim: true},

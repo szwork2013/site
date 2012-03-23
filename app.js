@@ -12,6 +12,7 @@ var util = require('./utils/util');
 var app = express.createServer();
 
 app.configure(function () {
+  app.use(express.favicon());
   app.use(express.static(__dirname + '/public'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
@@ -20,7 +21,17 @@ app.configure(function () {
   app.use(express.methodOverride())
   app.use(express.cookieParser());
   app.use(express.session({key: config.session.key, secret: config.session.secret}));
-  app.use(app.router);
+  app.use(function(req, res, next){
+    res.message = function message(message, status, url) {
+      status = status || 1;
+      message = message || '操作已成功。';
+      url = url || req.url;
+
+      this.render('message', {status: status, message: message, url: url});
+    };
+
+    return next();
+  });
 });
 
 app.configure('development', function () {
@@ -49,6 +60,7 @@ app.error(function (err, req, res, next) {
 
 app.get('/login', routes.login.index);
 app.post('/login', routes.login.index);
+app.all('/tag', routes.tag.index);
 app.all('/site/add', routes.site.add);
 app.all('/site/edit/:id', routes.site.edit);
 app.all('/site/check', routes.site.check);
