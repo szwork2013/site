@@ -34,10 +34,33 @@ exports.index = function (req, res, next) {
   });
 };
 
+exports.article = function (req, res, next){
+  res.render('domain/article');
+};
+
 exports.tag = function (req, res, next) {
   //var Tag = conn.model('Tag', Model.TagSchema);
 
-  res.render('domain/tag');
+  var dbname = req.params.domain.replace(/\./g, '');
+  var conn;
+
+  if (connectionPool[dbname]) {
+    conn = connectionPool[dbname];
+  } else {
+    conn = mongoose.createConnection('mongodb://127.0.0.1/' + dbname);
+    connectionPool[dbname] = conn;
+  }
+
+  var Tag = conn.model('Tag', Domain.TagSchema);
+
+  var cb = combo(function (err, site, tags) {
+    if (err) return next(err);
+
+    res.render('domain/tag', {site: site, tags: tags});
+  });
+
+  Site.findOne({domain: req.params.domain}, cb.add());
+  Tag.find(cb.add());
 };
 
 exports.category = function (req, res, next) {
@@ -64,7 +87,6 @@ exports.category = function (req, res, next) {
 
     Site.findOne({domain: req.params.domain}, cb.add());
     Category.list(cb.add());
-    console.log(req.url);
   } else if (req.method === 'POST') {
     Site.findOne({domain: req.params.domain}, function (err, site) {
       if (err) return next(err);
@@ -75,7 +97,7 @@ exports.category = function (req, res, next) {
       category.save(function (err) {
         if (err) return next(err);
 
-        res.render('message', {status: 1, message: '栏目[' + category.name + ']添加成功。', url: req.url});
+        res.message('栏目[' + category.name + ']添加成功。');
       });
     });
 
@@ -94,9 +116,9 @@ exports.category = function (req, res, next) {
 
       category.save(function (err) {
         if (err) {
-          res.message(0, '栏目[' + category.name + ']修改失败！');
+          res.message('栏目[' + category.name + ']修改失败！', 0);
         } else {
-          res.message(1, '栏目[' + category.name + ']修改成功。');
+          res.message('栏目[' + category.name + ']修改成功。');
         }
       });
     });
@@ -108,9 +130,9 @@ exports.category = function (req, res, next) {
 
       category.remove(function (err) {
         if (err) {
-          res.render('message', {status: 0, message: '栏目[' + category.name + ']删除失败！', url: req.url})
+          res.message('栏目[' + category.name + ']删除失败！', 0);
         } else {
-          res.render('message', {status: 0, message: '栏目[' + category.name + ']删除成功。', url: req.url})
+          res.render('栏目[' + category.name + ']删除成功。');
         }
       });
     });
