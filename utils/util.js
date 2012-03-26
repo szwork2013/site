@@ -46,11 +46,12 @@ exports.timeOffset = function (time) {
 exports.bytes = function (bytes) {
   var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
   var power = (bytes > 0) ? Math.floor(Math.log(bytes) / Math.log(1024)) : 0;
-  return (bytes / Math.pow(1024, power)) + units[power];
+  return Math.floor(bytes / Math.pow(1024, power)) + units[power];
 };
 
-exports.message = function (status, message, url) {
-  status = status || 1;
-  message = message || '操作已成功。';
-  url = url || null;
+exports.url = function (domain, path) {
+  domain =  ~domain.indexOf('http://') ? domain : 'http://' + domain;
+  path = ~path.indexOf('/') ? path : '/' + path;
+
+  return domain + path;
 };

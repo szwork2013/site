@@ -1,16 +1,14 @@
+<h3>站点：<%= site.name %></h3>
+<ul id="tab" class="nav nav-tabs">
+  <li><a href="../">概况</a></li>
+  <li><a href="../article/">文章</a></li>
+  <li><a href="../category/">栏目</a></li>
+  <li class="active"><a href="../tag/">标签</a></li>
+  <li><a href="../setting/">配置</a></li>
+</ul>
 <div class="row">
-    <h3>站点：<%= site.name %></h3>
-    <ul id="tab" class="nav nav-tabs">
-        <li><a href="../">概况</a></li>
-        <li><a href="../article/">文章</a></li>
-        <li><a href="../category/">栏目</a></li>
-        <li class="active"><a href="../tag/">标签</a></li>
-        <li><a href="../setting/">配置</a></li>
-    </ul>
-</div>
-<div class="row">
-  <div class="span4"><a id="add-btn" class="btn btn-primary">添加标签</a></div>
-  <div class="span8">
+  <div class="span8"><a id="add-btn" class="btn btn-primary">添加标签</a></div>
+  <div class="span4">
     <form class="form-search" method="post" action="/tag/search/">
       <input type="text" class="input-medium span3" name="name">
       <button type="button" class="btn btn-primary">搜索</button>
@@ -24,17 +22,21 @@
     <th>标签名称</th>
     <th>url</th>
     <th>外部链接</th>
-    <th>关键词</th>
+    <th>关键词/描述</th>
     <th>操作</th>
   </tr>
   </thead>
   <tbody>
   <% tags.forEach(function(tag){ %>
   <tr id="<%= tag._id %>">
-    <td><%= tag.name %></td>
+    <td><a href="<%= util.url(site.domain, '/tag/' + tag.url) %>" rel="popover" data-content="<%= tag.title %>"
+           data-original-title="<%= tag._id %>" target="_blank"><%= tag.name %></a></td>
     <td><%= tag.url %></td>
     <td><%= tag.external %></td>
-    <td><%= tag.keyword %></td>
+    <td>
+      <span class="label" data-original-title="关键词" data-content="<%= tag.keyword %>">关键词</span>
+      <span class="label" data-original-title="描述" data-content="<%= tag.description %>">描述</span>
+    </td>
     <td>
       <button rel="edit" class="btn btn-mini">修改</button>
       <button rel="delete" class="btn btn-mini">删除</button>
@@ -57,6 +59,13 @@
 
           <div class="controls">
             <input type="text" class="input-xlarge" id="name" name="name">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="title">标签标题</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="title" name="title">
           </div>
         </div>
         <div class="control-group">
@@ -115,12 +124,16 @@
   </form>
 </div>
 <script type="text/javascript">
+$(function () {
+  $('a[rel=popover], .label').popover();
+
   var showForm = function (item) {
     if (item._id) {
       $('#form').prepend('<input type="hidden" name="_method" value="put">');
       $('#form').prepend('<input type="hidden" name="id" value="' + item._id + '">');
       $('#form-title').text('修改标签 - ' + item.name);
       $('#name').val(item.name);
+      $('#title').val(item.title);
       $('#url').val(item.url);
       $('#external').val(item.external);
       $('#keyword').val(item.keyword);
@@ -150,4 +163,6 @@
     $('#delete-form-modal').modal();
   });
 
+  var model = <%- JSON.stringify(tagos) %>;
+});
 </script>

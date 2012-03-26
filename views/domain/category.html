@@ -13,22 +13,28 @@
     <th>栏目名称</th>
     <th style="width:200px;">栏目ID</th>
     <th>URL</th>
-    <th>关键词</th>
-    <th>标签</th>
+    <th>模板</th>
+    <th>关键词/描述/广告</th>
     <th>操作</th>
   </tr>
   </thead>
   <tbody>
   <% categories.forEach(function(category){ %>
   <tr id="<%= category._id %>">
-    <td><a href="http://<%= site.domain %><%= category.url %>"><%= category.name %></a></td>
+    <td><a href="<%= util.url(site.domain, category.url) %>" target="_blank" rel="popover" data-content="<%= category.title %>"
+           data-original-title="标题"><%= category.name %></a></td>
     <td><%= category._id %></td>
     <td><%= category.url %></td>
-    <td><%= category.keyword %></td>
-    <td></td>
+    <td><%= category.template %></td>
     <td>
-      <button rel="edit" class="btn">修改</button>
-      <button rel="delete" class="btn">删除</button>
+      <span class="label" data-original-title="关键词" data-content="<%= category.keyword %>">关键词</span>
+      <span class="label" data-original-title="描述" data-content="<%= category.description %>">描述</span>
+      <span class="label" data-original-title="广告" data-content="<%= category.advertment %>">广告</span>
+    </td>
+    <td>
+      <a href="#" class="btn btn-mini">文章</a>
+      <button rel="edit" class="btn btn-mini">修改</button>
+      <button rel="delete" class="btn btn-mini">删除</button>
     </td>
   </tr>
   <% }); %>
@@ -123,6 +129,9 @@
   </form>
 </div>
 <script type="text/javascript">
+$(function(){
+  $('a[rel=popover], .label').popover();
+
   var showForm = function (item) {
     if (item._id) {
       $('#form').prepend('<input type="hidden" name="_method" value="put">');
@@ -162,4 +171,5 @@
   });
 
   var model = <%- JSON.stringify(categoryos) %>;
+});
 </script>

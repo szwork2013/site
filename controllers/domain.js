@@ -13,20 +13,6 @@ var combo = require('combo').combo;
 var connectionPool = {};
 
 exports.index = function (req, res, next) {
-  /*
-   var dbname = 'testsite';
-   var conn;
-
-   if (connectionPool[dbname]) {
-   conn = connectionPool[dbname];
-   } else {
-   conn = mongoose.createConnection('mongodb://127.0.0.1/' + dbname);
-   }
-
-   var Article = conn.model('Article', Model.ArticleSchema);
-   var Category = conn.model('Category', Model.CategorySchema);
-   var Content = conn.model('Content', Model.ContentSchema);
-   */
   Site.findOne({domain: req.params.domain}, function (err, site) {
     if (err) return next(err);
 
@@ -34,13 +20,7 @@ exports.index = function (req, res, next) {
   });
 };
 
-exports.article = function (req, res, next){
-  res.render('domain/article');
-};
-
-exports.tag = function (req, res, next) {
-  //var Tag = conn.model('Tag', Model.TagSchema);
-
+exports.article = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
   var conn;
 
@@ -51,20 +31,75 @@ exports.tag = function (req, res, next) {
     connectionPool[dbname] = conn;
   }
 
-  var Tag = conn.model('Tag', Domain.TagSchema);
+  res.render('domain/article');
+};
 
-  var cb = combo(function (err, site, tags) {
-    if (err) return next(err);
+exports.tag = function (req, res, next) {
+  var dbname = req.params.domain.replace(/\./g, '');
+  var conn;
 
-    res.render('domain/tag', {site: site, tags: tags});
-  });
+  if (connectionPool[dbname]) {
+    conn = connectionPool[dbname];
+  } else {
+    conn = mongoose.createConnection('mongodb://127.0.0.1/' + dbname);
+    connectionPool[dbname] = conn;
+  }
 
-  Site.findOne({domain: req.params.domain}, cb.add());
-  Tag.find(cb.add());
+  var Tags = conn.model('Tags', Domain.TagSchema);
+
+  if (req.method === 'GET') {
+    var cb = combo(function (err, site, tags) {
+      if (err) return next(err);
+      res.render('domain/tag', {site: site, title: site.name, tags: tags[0], tagos: tags[1]});
+    });
+
+    Site.findOne({domain: req.params.domain}, cb.add());
+    Tags.list(cb.add());
+  } else if (req.method === 'POST') {
+    var tag = new Tags(req.body);
+    tag.save(function (err) {
+      if (err) {
+        res.message('标签添加失败。' + err, 0);
+      } else {
+        res.message('标签添加成功。');
+      }
+    });
+  } else if (req.method === 'PUT') {
+    var id = req.body.id;
+    Tags.findById(id, function (err, tag) {
+      if (err) return res.message('标签不存在！');
+
+      tag.name = req.body.name;
+      tag.title = req.body.title;
+      tag.url = req.body.url;
+      tag.external = req.body.external;
+      tag.keyword = req.body.keyword;
+      tag.description = req.body.description;
+      tag.save(function (err) {
+        if (err) {
+          res.message('标签修改失败！' + err, 0);
+        } else {
+          res.message('标签修改成功。');
+        }
+      });
+    });
+  } else if (req.method === 'DELETE') {
+    var id = req.body.id;
+    Tags.findById(id, function (err, tag) {
+      if (err) return res.message('标签不存在！');
+
+      tag.remove(function (err) {
+        if (err) {
+          res.message('标签删除失败！', 0);
+        } else {
+          res.message('标签删除成功。');
+        }
+      });
+    });
+  }
 };
 
 exports.category = function (req, res, next) {
-
   var dbname = req.params.domain.replace(/\./g, '');
   var conn;
 
@@ -81,8 +116,7 @@ exports.category = function (req, res, next) {
 
     var cb = combo(function (err, site, categories) {
       if (err) return next(err);
-
-      res.render('domain/category', {site: site, categories: categories[0], categoryos: categories[1]});
+      res.render('domain/category', {site: site, title: site.name, categories: categories[0], categoryos: categories[1]});
     });
 
     Site.findOne({domain: req.params.domain}, cb.add());
@@ -90,8 +124,6 @@ exports.category = function (req, res, next) {
   } else if (req.method === 'POST') {
     Site.findOne({domain: req.params.domain}, function (err, site) {
       if (err) return next(err);
-
-      var Category = conn.model('Category', Domain.CategorySchema);
 
       var category = new Category(req.body);
       category.save(function (err) {

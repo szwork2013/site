@@ -140,15 +140,14 @@ exports.check = function (req, res) {
 
 exports.list = function (req, res, next) {
   var curtype = req.params.type;
-  var cb = combo(function (err, sites, types, sitesByType) {
+  var cb = combo(function (err, sites, types) {
     if (err) return next(err);
 
-    res.render('site/list', {curtype: curtype, sites: sites, types: types[0], typeos: types[1], sitesByType: sitesByType});
+    res.render('site/list', {curtype: curtype, sites: sites, types: types[0], typeos: types[1]});
   });
 
   Site.find(curtype ? {type: curtype} : {}).desc('_id').run(cb.add());
   Type.list(cb.add());
-  Type.sitesByType(cb.add());
 };
 
 exports.type = function (req, res, next) {
