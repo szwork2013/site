@@ -58,25 +58,23 @@ app.error(function (err, req, res, next) {
   next(err);
 });
 
-app.get('/login', routes.login.index);
-app.post('/login', routes.login.index);
-app.all('/tag', routes.tag.index);
-app.all('/site/add', routes.site.add);
-app.all('/site/edit/:id', routes.site.edit);
-app.all('/site/check', routes.site.check);
-app.all('/site/type/:id?', routes.site.type);
-app.get('/site/list/:type?', routes.site.list);
-app.get('/site/detail/:domain', routes.domain.index);
-app.get('/site', routes.site.index);
-app.all('/domain/:domain/category', routes.domain.category);
-app.all('/domain/:domain/article', routes.domain.article);
-app.all('/domain/:domain/tag', routes.domain.tag);
-app.get('/domain/:domain', routes.domain.index);
+app.all('/web', routes.web.index);
+app.get('/web/check', routes.web.check);
+app.all('/type/:id?', routes.type);
+app.get('/list/:type?', routes.list);
+app.all('/tag', routes.tag);
+app.all('/site/:site/article', routes.article);
+app.all('/site/:site/category', routes.category);
+app.all('/site/:site/tag', routes.site.tag);
+app.all('/site/:site/publish', routes.site.publish);
+app.get('/site/:site', routes.site.home);
 app.get('/server', routes.server.index);
 app.get('/server/start', routes.server.start);
 app.get('/server/restart', routes.server.restart);
 app.get('/server/killall', routes.server.killall);
-app.get('/', routes.home.index);
+app.get('/login', routes.login);
+app.post('/login', routes.login);
+app.get('/', routes.home);
 
 
 app.listen(config.port);

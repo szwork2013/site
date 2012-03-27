@@ -17,4 +17,5 @@ mongoose.connect(config.db, function (err) {
 exports.Site = require('./site').Site;
 exports.Type = require('./type').Type;
 exports.Tag = require('./tag').Tag;
-exports.Domain = require('./domain');
+exports.domain = require('./domain');
+exports.pool = require('./pool');

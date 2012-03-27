@@ -7,7 +7,7 @@
     </form>
   </div>
 </div>
-<h3>标签列表(<%= types.length %>条)</h3>
+<h3>标签列表(<%= count %>条)</h3>
 <table class="table table-striped table-bordered">
   <thead>
   <tr>
@@ -31,6 +31,16 @@
   <% }); %>
   </tbody>
 </table>
+<div class="pagination">
+  <ul>
+    <li class="disabled"><a href="#">«</a></li>
+    <li class="active"><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">»</a></li>
+  </ul>
+</div>
 <div id="form-modal" class="modal hide">
   <form id="form" method="post" class="form-horizontal" style="margin: 0">
     <div class="modal-header">

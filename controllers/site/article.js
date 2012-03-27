@@ -4,6 +4,6 @@
  * MIT Licensed
  */
 
-exports.index = function (req, res) {
-  res.render('home');
-};
+exports.index = function (req, res, next) {
+  res.render('site/article');
+}

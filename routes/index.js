@@ -7,22 +7,32 @@
 /**
  * web index
  */
-exports.home = require('../controllers/home');
+exports.home = require('../controllers/home').index;
 
 /**
  * site
  */
-exports.site = require('../controllers/site');
+exports.web = require('../controllers/web');
+
+/**
+ * type
+ */
+exports.type = require('../controllers/type').index;
+
+/**
+ * list
+ */
+exports.list = require('../controllers/list').index;
 
 /**
  * login
  */
-exports.login = require('../controllers/login');
+exports.login = require('../controllers/login').index;
 
 /**
- * tag
+ * global tag
  */
-exports.tag = require('../controllers/tag');
+exports.tag = require('../controllers/tag').index;
 
 /**
  * server
@@ -30,6 +40,6 @@ exports.tag = require('../controllers/tag');
 exports.server = require('../controllers/server');
 
 /**
- * domain
+ * site
  */
-exports.domain = require('../controllers/domain');
+exports.site = require('../controllers/site');

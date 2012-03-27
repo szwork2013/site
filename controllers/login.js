@@ -10,8 +10,7 @@ var config = require('../config').config;
 exports.index = function (req, res) {
   if (req.method === 'GET') {
     res.render('login');
-  }
-  else {
+  } else {
     var username = req.body.username;
     var password = req.body.password;
 

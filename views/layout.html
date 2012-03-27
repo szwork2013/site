@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="xiatian">
-
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-
     <style type="text/css">
         body {
             font-family: '微软雅黑';
@@ -16,22 +14,18 @@
             padding-top: 60px;
             padding-bottom: 40px;
         }
-
         .sidebar-nav {
             padding: 9px 0;
         }
     </style>
     <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
     <!--[if lt IE 9]>
     <script src="/bootstrap/js/html5.js"></script>
     <![endif]-->
     <script src="/bootstrap/js/jquery-1.7.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -41,17 +35,16 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/">云平台管理</a>
-
             <div class="nav-collapse">
                 <ul class="nav">
                     <li class="active"><a href="/">HOME</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">平台 <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">网站 <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/site/list">网站列表</a></li>
+                            <li><a href="/list">网站列表</a></li>
                             <li class="divider"></li>
-                            <li><a href="/site/add">添加网站</a></li>
-                            <li><a href="/site/type">分类管理</a></li>
+                            <li><a href="/web">添加网站</a></li>
+                            <li><a href="/type">分类管理</a></li>
                         </ul>
                     </li>
                     <li><a href="/tag">标签</a></li>
@@ -64,16 +57,12 @@
         </div>
     </div>
 </div>
-
 <div class="container">
     <%- body %>
-
     <hr>
-
     <footer>
         <p>&copy; 云平台站点管理系统 2012</p>
     </footer>
-
 </div>
 </body>
 </html>

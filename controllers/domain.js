@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var models = require('../models');
 var Domain = models.Domain;
 var Site = models.Site;
+var pool = models.pool;
 var combo = require('combo').combo;
 
 var connectionPool = {};
@@ -16,7 +17,7 @@ exports.index = function (req, res, next) {
   Site.findOne({domain: req.params.domain}, function (err, site) {
     if (err) return next(err);
 
-    res.render('domain/index', {site: site, title: site.name});
+    res.render('site/index', {site: site, title: site.name});
   });
 };
 
@@ -31,26 +32,19 @@ exports.article = function (req, res, next) {
     connectionPool[dbname] = conn;
   }
 
-  res.render('domain/article');
+  res.render('site/article');
 };
 
 exports.tag = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
-  var conn;
-
-  if (connectionPool[dbname]) {
-    conn = connectionPool[dbname];
-  } else {
-    conn = mongoose.createConnection('mongodb://127.0.0.1/' + dbname);
-    connectionPool[dbname] = conn;
-  }
+  var conn = pool(dbname);
 
   var Tags = conn.model('Tags', Domain.TagSchema);
 
   if (req.method === 'GET') {
     var cb = combo(function (err, site, tags) {
       if (err) return next(err);
-      res.render('domain/tag', {site: site, title: site.name, tags: tags[0], tagos: tags[1]});
+      res.render('site/tag', {site: site, title: site.name, tags: tags[0], tagos: tags[1]});
     });
 
     Site.findOne({domain: req.params.domain}, cb.add());
@@ -116,7 +110,7 @@ exports.category = function (req, res, next) {
 
     var cb = combo(function (err, site, categories) {
       if (err) return next(err);
-      res.render('domain/category', {site: site, title: site.name, categories: categories[0], categoryos: categories[1]});
+      res.render('site/category', {site: site, title: site.name, categories: categories[0], categoryos: categories[1]});
     });
 
     Site.findOne({domain: req.params.domain}, cb.add());

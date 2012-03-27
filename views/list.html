@@ -2,16 +2,16 @@
 <h2>网站列表</h2>
 <ul id="tab" class="nav nav-tabs">
     <% if(curtype){ %>
-    <li><a href="/site/list/">全部</a></li>
+    <li><a href="/list/">全部</a></li>
     <% }else{ %>
-    <li class="active"><a href="/site/list/">全部</a></li>
+    <li class="active"><a href="/list/">全部</a></li>
     <% }%>
 
     <% types.forEach(function(type){ %>
     <% if(curtype == type._id){ %>
-    <li class="active"><a href="/site/list/<%= type._id %>"><%= type.name %></a></li>
+    <li class="active"><a href="/list/<%= type._id %>"><%= type.name %></a></li>
     <% }else{ %>
-    <li><a href="/site/list/<%= type._id %>"><%= type.name %></a></li>
+    <li><a href="/list/<%= type._id %>"><%= type.name %></a></li>
     <% }%>
     <% }); %>
 </ul>
@@ -47,8 +47,7 @@
         <td>...</td>
         <td><%= site.founded %></td>
         <td>
-            <a href="/domain/<%= site.domain %>/" class="btn" target="_blank">详情</a>
-            <a href="/site/edit/<%= site._id %>" class="btn">修改</a>
+            <a href="/site/<%= site.domain %>/" class="btn btn-primary" target="_blank">详情</a>
         </td>
     </tr>
     <% }); %>
