@@ -10,7 +10,7 @@ var ObjectId = Schema.ObjectId;
 var Site = require('../models').Site;
 
 var TypeSchema = new Schema({
-  name: {type: String, required: true, trim: true},
+  name: {type: String, unique: true, required: true, trim: true},
   site: {type: [ObjectId]}
 });
 

@@ -102,7 +102,7 @@
   var showForm = function (item) {
     $("#form input[type='hidden']").remove();
 
-    if (item._id) {
+    if (item.id) {
       $('#form').prepend('<input type="hidden" name="_method" value="put">');
       $('#form').prepend('<input type="hidden" name="id" value="' + item._id + '">');
       $('#form-title').text('修改标签 - ' + item.name);
@@ -124,7 +124,7 @@
   $("button[rel=edit]").click(function () {
     var tr = $(this).parents('tr');
     var td = tr.find('td');
-    showForm({_id: tr.attr('id'), name: td.eq(0).text(), url: td.eq(1).text(), external: td.eq(2).text()});
+    showForm({id: tr.attr('id'), name: td.eq(0).text(), url: td.eq(1).text(), external: td.eq(2).text()});
   });
 
   $("button[rel=delete]").click(function () {

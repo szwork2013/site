@@ -1,1 +1,27 @@
-PUBLISH
+<h3>站点：<%= site.name %></h3>
+<ul id="tab" class="nav nav-tabs">
+  <li><a href="./">概况</a></li>
+  <li><a href="./article">文章</a></li>
+  <li><a href="./category">栏目</a></li>
+  <li><a href="./tag">标签</a></li>
+  <li><a href="./setting">站点配置</a></li>
+  <li class="active"><a href="./publish">发布配置</a></li>
+</ul>
+<form method="post" class="form-horizontal well">
+  <fieldset>
+    <legend>发布配置</legend>
+    <div class="control-group">
+      <label class="control-label" for="name">网站名称</label>
+
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="name" name="name" value="<%= site.name %>">
+
+        <p class="help-block">输入网站名称</p>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">提交</button>
+      <button type="reset" class="btn">取消</button>
+    </div>
+  </fieldset>
+</form>
