@@ -10,13 +10,13 @@ var ObjectId = Schema.ObjectId;
 exports.ArticleSchema = new Schema({
   title: {type: String, unique: true, required: true, trim: true},
   url: {type: String, unique: true, required: true, trim: true},
+  tag: {type: [ObjectId], index: true},
+  category: {type: ObjectId, index: true, required: true},
   keyword: {type: String},
   description: {type: String},
-  tag: {type: [ObjectId]},
   dateline: {type: Date, 'default': Date.now},
-  category: {type: ObjectId, required: true},
   views: {type: Number, 'default': 0},
-  recommend: {type: Boolean, 'default': false},
+  recommend: {type: Number, 'default': 0},
   outurl: {type: String}
 });
 

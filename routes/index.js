@@ -40,6 +40,11 @@ exports.tag = require('../controllers/tag').index;
 exports.server = require('../controllers/server');
 
 /**
+ * post
+ */
+exports.post = require('../controllers/post').index;
+
+/**
  * site
  */
 exports.site = require('../controllers/site');

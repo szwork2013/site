@@ -19,14 +19,16 @@ var SiteSchema = new Schema({
   urltype: {type: String, 'default': 'id', enum: ['id', 'py', 'abbr', 'cn']},
   template: {type: String, 'default': 'default'},
   advertment: {type: String},
-  founded: {type: String, 'default': function(){
+  founded: {type: String, 'default': function () {
     var now = new Date();
     return now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-  }}
+  }},
+  counter: {draft: {type: Number, 'default': 0}, release: {type: Number, 'default': 0}},
+  publish: {time: {type: Number, min: 0, max: 59, 'default': 0}, count: {type: Number, 'default': 0}}
 });
 
 SiteSchema.path('domain').validate(function (value) {
-  return value.indexOf('http://')  === -1;
+  return value.indexOf('http://') === -1;
 }, 'invalidDomain');
 
 exports.Site = mongoose.model('Site', SiteSchema);

@@ -1,68 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title><%= title %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="xiatian">
-    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-        body {
-            font-family: '微软雅黑';
-            font-size: 12px;
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-        .sidebar-nav {
-            padding: 9px 0;
-        }
-    </style>
-    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="/bootstrap/js/html5.js"></script>
-    <![endif]-->
-    <script src="/bootstrap/js/jquery-1.7.1.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="xiatian">
+  <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="/js/html5.js"></script>
+  <![endif]-->
+  <script src="/js/jquery-1.7.1.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="/">云平台管理</a>
-            <div class="nav-collapse">
-                <ul class="nav">
-                    <li class="active"><a href="/">HOME</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">网站 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/list">网站列表</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/web">添加网站</a></li>
-                            <li><a href="/type">分类管理</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="/tag">标签</a></li>
-                    <li><a href="/bot">蜘蛛爬虫</a></li>
-                    <li><a href="/replace">替换</a></li>
-                    <li><a href="/server">系统</a></li>
-                </ul>
-                <p class="navbar-text pull-right"><span class="label label-success"><%= user %></span></p>
-            </div>
-        </div>
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/">云平台管理</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="active"><a href="/">HOME</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">网站 <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/list">网站列表</a></li>
+              <li class="divider"></li>
+              <li><a href="/web">添加网站</a></li>
+              <li><a href="/type">分类管理</a></li>
+            </ul>
+          </li>
+          <li><a href="/tag">标签</a></li>
+          <li><a href="/bot">蜘蛛爬虫</a></li>
+          <li><a href="/replace">替换</a></li>
+          <li><a href="/server">系统</a></li>
+        </ul>
+        <p class="navbar-text pull-right"><span class="label label-success"><%= user %></span></p>
+      </div>
     </div>
+  </div>
 </div>
 <div class="container">
-    <%- body %>
-    <hr>
-    <footer>
-        <p>&copy; 云平台站点管理系统 2012</p>
-    </footer>
+  <%- body %>
+  <hr>
+  <footer>
+    <p>&copy; 云平台站点管理系统 2012</p>
+  </footer>
 </div>
 </body>
 </html>

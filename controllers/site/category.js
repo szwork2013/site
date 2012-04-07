@@ -13,7 +13,6 @@ var combo = require('combo').combo;
 exports.index = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
   var conn = pool(dbname);
-
   var Category = conn.model('Category', domain.CategorySchema);
 
   if (req.method === 'GET') {

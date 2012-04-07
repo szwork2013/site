@@ -166,7 +166,7 @@ $(function(){
 
   $("button[rel=delete]").click(function () {
     var id = $(this).parents('tr').attr('id');
-    $('#delete-category-name').text($('#'+id+' a').text());
+    $('#delete-name').text($('#'+id+' a').eq(0).text());
     $('#delete-id').val(id);
     $('#delete-form-modal').modal();
   });

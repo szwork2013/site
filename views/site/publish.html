@@ -5,18 +5,31 @@
   <li><a href="./category">栏目</a></li>
   <li><a href="./tag">标签</a></li>
   <li><a href="./setting">站点配置</a></li>
-  <li class="active"><a href="./publish">发布配置</a></li>
+  <li class="dropdown active">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">发布 <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="./publish" data-toggle="tab">配置</a></li>
+      <li><a href="./draft">草稿</a></li>
+      <li><a href="./publish" data-toggle="tab">日志</a></li>
+    </ul>
+  </li>
 </ul>
 <form method="post" class="form-horizontal well">
+  <input type="hidden" name="domain" value="<%= site.domain %>">
   <fieldset>
     <legend>发布配置</legend>
     <div class="control-group">
-      <label class="control-label" for="name">网站名称</label>
-
+      <label class="control-label" for="time">更新时序</label>
       <div class="controls">
-        <input type="text" class="input-xlarge" id="name" name="name" value="<%= site.name %>">
-
-        <p class="help-block">输入网站名称</p>
+        <input type="text" class="input-xlarge" id="time" name="time" value="<%= site.publish.time %>">
+        <p class="help-block">输入更新发生的时间(0-59),如在每小时的第55分</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="count">发布数量</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="count" name="count" value="<%= site.publish.count %>">
+        <p class="help-block">输入每次发布更新的数量</p>
       </div>
     </div>
     <div class="form-actions">

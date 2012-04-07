@@ -47,6 +47,7 @@ exports.status = function () {
 
 exports.conf = function (site, cb) {
 
+  return cb(null);
   var webpath = path.join(config.wwwroot, site.path);
   var logpath = path.join(config.logpath, site.domain) + '.log';
   var confpath = path.join(config.nginx.conf, site.domain) + '.conf';

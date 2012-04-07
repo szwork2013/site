@@ -1,62 +1,69 @@
 <div class="row-fluid">
-    <h2>服务器信息</h2>
+  <h2>服务器信息</h2>
 
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td class="span2">主机名称：</td>
-            <td><%= os.hostname() %></td>
-        </tr>
-        <tr>
-            <td>操作系统：</td>
-            <td><%= os.type() %> <%= os.release() %></td>
-        </tr>
-        <tr>
-            <td>系统负载：</td>
-            <td><%= os.loadavg() %></td>
-        </tr>
-        <tr>
-            <td>内存状态：</td>
-            <td><%= util.bytes(os.freemem()) %> / <%= util.bytes(os.totalmem()) %></td>
-        </tr>
-        <tr>
-            <td>运行状态：</td>
-            <td><%= util.timeOffset(os.uptime()) %></td>
-        </tr>
-    </table>
-    <h2>Nginx</h2>
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td class="span2">网站目录：</td>
-            <td><%= config.wwwroot %></td>
-        </tr>
-        <tr>
-            <td>日志目录：</td>
-            <td><%= config.logpath %></td>
-        </tr>
-        <tr>
-            <td>配置目录：</td>
-            <td><%= config.nginx.conf %></td>
-        </tr>
-        <tr>
-            <td>PID：</td>
-            <td><%= config.nginx.pid %></td>
-        </tr>
-        <tr>
-            <td>运行状态：</td>
-            <td><% if(uptime){ %>
-                <%= util.timeOffset(uptime) %>
-                <a class="btn btn-mini btn-warning" href="/server/restart">重启</a>
-                <% }else{ %>
-                nginx尚未启动。<a class="btn btn-mini btn-primary" href="/server/start">启动</a>
-                <% } %>
-            </td>
-        </tr>
-    </table>
-    <h2>MongoDB</h2>
-    <table class="table table-bordered table-striped">
-        <tr>
-            <td class="span2">连接地址：</td>
-            <td><%= config.db %></td>
-        </tr>
-    </table>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td class="span2">主机名称：</td>
+      <td><%= os.hostname() %></td>
+    </tr>
+    <tr>
+      <td>操作系统：</td>
+      <td><%= os.type() %> <%= os.release() %></td>
+    </tr>
+    <tr>
+      <td>系统负载：</td>
+      <td><%= os.loadavg() %></td>
+    </tr>
+    <tr>
+      <td>内存状态：</td>
+      <td><%= util.bytes(os.freemem()) %> / <%= util.bytes(os.totalmem()) %></td>
+    </tr>
+    <tr>
+      <td>运行状态：</td>
+      <td><%= util.timeOffset(os.uptime()) %></td>
+    </tr>
+  </table>
+  <h2>Nginx</h2>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td class="span2">网站目录：</td>
+      <td><%= config.wwwroot %></td>
+    </tr>
+    <tr>
+      <td>日志目录：</td>
+      <td><%= config.logpath %></td>
+    </tr>
+    <tr>
+      <td>配置目录：</td>
+      <td><%= config.nginx.conf %></td>
+    </tr>
+    <tr>
+      <td>PID：</td>
+      <td><%= config.nginx.pid %></td>
+    </tr>
+    <tr>
+      <td>运行状态：</td>
+      <td><% if(uptime){ %>
+        <%= util.timeOffset(uptime) %>
+        <a class="btn btn-mini btn-warning" href="/server/restart">重启</a>
+        <% }else{ %>
+        nginx尚未启动。<a class="btn btn-mini btn-primary" href="/server/start">启动</a>
+        <% } %>
+      </td>
+    </tr>
+  </table>
+  <h2>MongoDB</h2>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td class="span2">连接地址：</td>
+      <td><%= config.db %></td>
+    </tr>
+  </table>
+  <h2>Crontab任务计划</h2>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td class="span2">状态：</td>
+      <td>...</td>
+    </tr>
+  </table>
 </div>

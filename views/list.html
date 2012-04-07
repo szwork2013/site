@@ -1,57 +1,56 @@
-
 <h2>网站列表</h2>
 <ul id="tab" class="nav nav-tabs">
-    <% if(curtype){ %>
-    <li><a href="/list/">全部</a></li>
-    <% }else{ %>
-    <li class="active"><a href="/list/">全部</a></li>
-    <% }%>
+  <% if(curtype){ %>
+  <li><a href="/list/">全部</a></li>
+  <% }else{ %>
+  <li class="active"><a href="/list/">全部</a></li>
+  <% }%>
 
-    <% types.forEach(function(type){ %>
-    <% if(curtype == type._id){ %>
-    <li class="active"><a href="/list/<%= type._id %>"><%= type.name %></a></li>
-    <% }else{ %>
-    <li><a href="/list/<%= type._id %>"><%= type.name %></a></li>
-    <% }%>
-    <% }); %>
+  <% types.forEach(function(type){ %>
+  <% if(curtype == type._id){ %>
+  <li class="active"><a href="/list/<%= type._id %>"><%= type.name %></a></li>
+  <% }else{ %>
+  <li><a href="/list/<%= type._id %>"><%= type.name %></a></li>
+  <% }%>
+  <% }); %>
 </ul>
 <table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th>网站名称</th>
-        <th>域名</th>
-        <th>IP</th>
-        <th>目录</th>
-        <th>类别</th>
-        <th>模板风格</th>
-        <th>URL风格</th>
-        <th>内容总数</th>
-        <th>待发布</th>
-        <th>更新频率</th>
-        <th>创建时间</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% sites.forEach(function(site){ %>
-    <tr>
-        <td><%= site.name %></td>
-        <td><a href="http://<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
-        <td><%= site.ip %></td>
-        <td><%= site.path %></td>
-        <td><%= typeos[site.type]['name'] %></td>
-        <td><%= site.template %></td>
-        <td><%= site.urltype %></td>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-        <td><%= site.founded %></td>
-        <td>
-            <a href="/site/<%= site.domain %>/" class="btn btn-primary" target="_blank">详情</a>
-        </td>
-    </tr>
-    <% }); %>
-    </tbody>
+  <thead>
+  <tr>
+    <th>网站名称</th>
+    <th>域名</th>
+    <th>IP</th>
+    <th>目录</th>
+    <th>类别</th>
+    <th>模板风格</th>
+    <th>URL风格</th>
+    <th>已发布</th>
+    <th>待发布</th>
+    <th>更新频率</th>
+    <th>创建时间</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% sites.forEach(function(site){ %>
+  <tr>
+    <td><%= site.name %></td>
+    <td><a href="http://<%= site.domain %>" target="_blank"><%= site.domain %></a></td>
+    <td><%= site.ip %></td>
+    <td><%= site.path %></td>
+    <td><%= typeos[site.type]['name'] %></td>
+    <td><%= site.template %></td>
+    <td><%= site.urltype %></td>
+    <td><%= site.counter.release %></td>
+    <td><%= site.counter.draft %></td>
+    <td><%= site.publish.count %>/<%= site.publish.time %><b>'</b></td>
+    <td><%= site.founded %></td>
+    <td>
+      <a href="/site/<%= site.domain %>/" class="btn btn-primary" target="_blank">详情</a>
+    </td>
+  </tr>
+  <% }); %>
+  </tbody>
 </table>
 
 

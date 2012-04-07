@@ -7,7 +7,7 @@
 var express = require('express');
 var config = require('./config').config;
 var routes = require('./routes');
-var util = require('./utils/util');
+var util = require('./lib/util');
 
 var app = express.createServer();
 
@@ -21,17 +21,7 @@ app.configure(function () {
   app.use(express.methodOverride())
   app.use(express.cookieParser());
   app.use(express.session({key: config.session.key, secret: config.session.secret}));
-  app.use(function(req, res, next){
-    res.message = function message(message, status, url) {
-      status = status || 1;
-      message = message || '操作已成功。';
-      url = url || req.url;
-
-      this.render('message', {status: status, message: message, url: url});
-    };
-
-    return next();
-  });
+  app.use(util.message());
 });
 
 app.configure('development', function () {
@@ -59,7 +49,7 @@ app.error(function (err, req, res, next) {
 });
 
 app.all('/web', routes.web.index);
-app.get('/web/check', routes.web.check);
+app.get('/check', routes.web.check);
 app.all('/type/:id?', routes.type);
 app.get('/list/:type?', routes.list);
 app.all('/tag', routes.tag);
@@ -68,6 +58,7 @@ app.all('/site/:domain/category', routes.site.category);
 app.all('/site/:domain/tag', routes.site.tag);
 app.all('/site/:domain/setting', routes.site.setting);
 app.all('/site/:domain/publish', routes.site.publish);
+app.all('/site/:domain/draft', routes.site.draft);
 app.get('/site/:domain', routes.site.home);
 app.get('/server', routes.server.index);
 app.get('/server/start', routes.server.start);
@@ -75,6 +66,8 @@ app.get('/server/restart', routes.server.restart);
 app.get('/server/killall', routes.server.killall);
 app.get('/login', routes.login);
 app.post('/login', routes.login);
+app.get('/post/:domain', routes.post);
+app.post('/post/:domain', routes.post);
 app.get('/', routes.home);
 
 

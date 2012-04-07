@@ -15,6 +15,11 @@ exports.home = require('./home').index;
 exports.article = require('./article').index;
 
 /**
+ * site draft
+ */
+exports.draft = require('./draft').index;
+
+/**
  * site category
  */
 exports.category = require('./category').index;
@@ -25,7 +30,7 @@ exports.category = require('./category').index;
 exports.tag = require('./tag').index;
 
 /**
- * site setting
+ * site publish
  */
 exports.publish = require('./publish').index;
 
