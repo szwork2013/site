@@ -13,10 +13,16 @@ mongoose.connect(config.db, function (err) {
     process.exit(1);
   }
 });
+var redis = require('redis').createClient();
+redis.on("error", function (err) {
+  console.log("connect to redis server " + redis.host + ":" + redis.port + " failed - " + err);
+  process.exit(1);
+});
 
+exports.redis = redis;
 exports.Site = require('./site').Site;
 exports.Type = require('./type').Type;
 exports.Tag = require('./tag').Tag;
-exports.Draft = require('./draft').Draft;
 exports.domain = require('./domain');
 exports.pool = require('./pool');
+exports.cache = require('./cache');

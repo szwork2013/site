@@ -14,12 +14,13 @@ exports.index = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
   var conn = pool(dbname);
   var Category = conn.model('Category', domain.CategorySchema);
+  var Article = conn.model('Article', domain.ArticleSchema);
 
   if (req.method === 'GET') {
 
     var cb = combo(function (err, site, categories) {
       if (err) return next(err);
-      res.render('site/category', {site: site, title: site.name, categories: categories[0], categoryos: categories[1]});
+      res.render('site/category', {site: site, title: site.name, categories: categories[0], categoryos: categories[1], article: Article});
     });
 
     Site.findOne({domain: req.params.domain}, cb.add());
@@ -46,7 +47,8 @@ exports.index = function (req, res, next) {
       category.url = req.body.url;
       category.keyword = req.body.keyword;
       category.description = req.body.description;
-      category.template = req.body.template;
+      category.listtpl = req.body.listtpl;
+      category.showtpl = req.body.showtpl;
       category.advertment = req.body.advertment;
 
       category.save(function (err) {
@@ -63,11 +65,16 @@ exports.index = function (req, res, next) {
     Category.findById(id, function (err, category) {
       if (err) return next(err);
 
+      if (category === null) {
+        res.message('栏目不存在！', 0);
+        return;
+      }
+
       category.remove(function (err) {
         if (err) {
           res.message('栏目[' + category.name + ']删除失败！', 0);
         } else {
-          res.render('栏目[' + category.name + ']删除成功。');
+          res.message('栏目[' + category.name + ']删除成功。');
         }
       });
     });

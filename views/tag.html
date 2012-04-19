@@ -104,7 +104,7 @@
 
     if (item.id) {
       $('#form').prepend('<input type="hidden" name="_method" value="put">');
-      $('#form').prepend('<input type="hidden" name="id" value="' + item._id + '">');
+      $('#form').prepend('<input type="hidden" name="id" value="' + item.id + '">');
       $('#form-title').text('修改标签 - ' + item.name);
       $('#name').val(item.name);
       $('#url').val(item.url);

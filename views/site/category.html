@@ -14,7 +14,7 @@
     <th>栏目名称</th>
     <th style="width:200px;">栏目ID</th>
     <th>URL</th>
-    <th>模板</th>
+    <th>文章数量</th>
     <th>关键词/描述/广告</th>
     <th>操作</th>
   </tr>
@@ -26,7 +26,7 @@
            data-original-title="标题"><%= category.name %></a></td>
     <td><%= category._id %></td>
     <td><%= category.url %></td>
-    <td><%= category.template %></td>
+    <td><%= category.count %></td>
     <td>
       <span class="label" data-original-title="关键词" data-content="<%= category.keyword %>">关键词</span>
       <span class="label" data-original-title="描述" data-content="<%= category.description %>">描述</span>
@@ -44,7 +44,7 @@
 <div>
   <button id="add-btn" class="btn btn-primary">添加栏目 »</button>
 </div>
-<div id="form-modal" class="modal hide" style="max-height: 530px;">
+<div id="form-modal" class="modal hide" style="max-height: 580px;">
   <form id="form" method="post" class="form-horizontal" style="margin: 0">
     <div class="modal-header">
       <a class="close" data-dismiss="modal">×</a>
@@ -89,10 +89,17 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="template">模板</label>
+          <label class="control-label" for="listtpl">列表模板</label>
 
           <div class="controls">
-            <input type="text" class="input-xlarge" id="template" name="template">
+            <input type="text" class="input-xlarge" id="listtpl" name="listtpl">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="showtpl">内容模板</label>
+
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="showtpl" name="showtpl">
           </div>
         </div>
         <div class="control-group">
@@ -143,12 +150,15 @@ $(function(){
       $('#url').val(item.url);
       $('#keyword').val(item.keyword);
       $('#description').val(item.description);
-      $('#template').val(item.template);
+      $('#listtpl').val(item.listtpl);
+      $('#showtpl').val(item.showtpl);
       $('#advertment').val(item.advertment);
     } else {
       $("#form input[type='hidden']").remove();
       $('#form-title').text('添加栏目');
       $('#form').get(0).reset();
+      $('#listtpl').val('list.html');
+      $('#showtpl').val('show.html');
     }
 
     $('#form-modal').modal({backdrop: false});

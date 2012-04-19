@@ -38,3 +38,9 @@ exports.publish = require('./publish').index;
  * site setting
  */
 exports.setting = require('./setting').index;
+
+
+/**
+ * site crontab
+ */
+exports.crontab = require('./crontab').index;

@@ -24,7 +24,7 @@
       <label class="control-label" for="domain">网站域名</label>
 
       <div class="controls">
-        <input type="text" class="input-xlarge" id="domain" name="domain" value="<%= site.domain %>">
+        <input type="text" class="input-xlarge disabled" id="domain" name="domain" value="<%= site.domain %>" origin="<%= site.domain %>" readonly>
 
         <p class="help-block">输入网站域名<b>(不含http://)</b>，系统中不能重复</b></p>
       </div>
@@ -33,7 +33,7 @@
       <label class="control-label" for="path">网站目录</label>
 
       <div class="controls">
-        <input type="text" class="input-xlarge" id="path" name="path" value="<%= site.path %>">
+        <input type="text" class="input-xlarge disabled" id="path" name="path" value="<%= site.path %>" origin="<%= site.path %>" readonly>
 
         <p class="help-block">输入网站的目录名称，系统中不能重复</p>
       </div>

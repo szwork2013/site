@@ -58,6 +58,7 @@ app.all('/site/:domain/category', routes.site.category);
 app.all('/site/:domain/tag', routes.site.tag);
 app.all('/site/:domain/setting', routes.site.setting);
 app.all('/site/:domain/publish', routes.site.publish);
+app.get('/site/:domain/crontab', routes.site.crontab);
 app.all('/site/:domain/draft', routes.site.draft);
 app.get('/site/:domain', routes.site.home);
 app.get('/server', routes.server.index);

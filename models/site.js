@@ -16,7 +16,7 @@ var SiteSchema = new Schema({
   type: {type: ObjectId, required: true},
   keyword: {type: String},
   description: {type: String},
-  urltype: {type: String, 'default': 'id', enum: ['id', 'py', 'abbr', 'cn']},
+  urltype: {type: String, 'default': 'id', enum: ['id', 'py', 'abbr']},
   template: {type: String, 'default': 'default'},
   advertment: {type: String},
   founded: {type: String, 'default': function () {

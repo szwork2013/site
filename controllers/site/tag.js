@@ -9,6 +9,8 @@ var Site = models.Site;
 var domain = models.domain;
 var pool = models.pool;
 var combo = require('combo').combo;
+var EventProxy = require('eventproxy').EventProxy;
+var cache = models.cache;
 
 exports.index = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
@@ -48,7 +50,16 @@ exports.index = function (req, res, next) {
         if (err) {
           res.message('标签修改失败！' + err, 0);
         } else {
-          res.message('标签修改成功。');
+          var message = '标签修改成功。';
+
+          cache.cacheTag(tag.db.name, tag, function(err, result){
+            if (err) {
+              message += '缓存到redis服务器失败！';
+              res.message(message, 0);
+            } else {
+              res.message(message);
+            }
+          });
         }
       });
     });
