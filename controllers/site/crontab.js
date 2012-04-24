@@ -16,21 +16,33 @@ exports.index = function (req, res, next) {
   var dbname = req.params.domain.replace(/\./g, '');
   var conn = pool(dbname);
 
-  var proxy = EventProxy.create();
+  var siteTagIds = [];
 
+  var proxy = EventProxy.create();
   proxy.assign('drafts', 'tags', 'siteTags', function (drafts, tags, siteTags) {
-    var Article = conn.model('Article', domain.ArticleSchema);
     tags = siteTags.concat(tags);
-    console.log(tags[0]);
-    //res.send('tags: ' + tags.length);
 
     drafts.forEach(function (draft) {
-      publish.article(draft, tags, function (err, article) {
+      publish.article(draft, tags, function (err, article, content) {
         if (err) return next(err);
-        console.log(article);
+
+        publish.content(article, content, tags, function(err, content) {
+          if (err) return next(err);
+          //console.log(content);
+        });
+
+
+        if (article.tags.length) {
+          article.tags.forEach(function(tag){
+            if (siteTagIds.indexOf(tag) === -1) {
+
+            }
+          });
+        }
       });
     });
 
+    res.send('tag: ' + tags.length);
   });
 
   proxy.on('site', function (site) {
@@ -42,11 +54,12 @@ exports.index = function (req, res, next) {
       proxy.trigger('drafts', drafts);
     });
 
-    redis.smembers(dbname + '.tags', function (err, siteTagIds) {
+    redis.smembers(dbname + '.tags', function (err, ids) {
       if (err) return next(err);
-      var len = siteTagIds.length;
+      var len = ids.length;
       var siteTags = [];
-      siteTagIds.forEach(function (id) {
+      siteTagIds = ids;
+      ids.forEach(function (id) {
         redis.hgetall(dbname + '.tag.' + id, function (err, tag) {
           if (err) return next(err);
           siteTags.push(tag);
@@ -55,12 +68,12 @@ exports.index = function (req, res, next) {
       });
     });
 
-    redis.sdiff('test.tags', dbname + '.tags', function (err, tagIds) {
+    redis.sdiff('sites.tags', dbname + '.tags', function (err, tagIds) {
       if (err) return next(err);
       var len = tagIds.length;
       var tags = [];
       tagIds.forEach(function (id) {
-        redis.hgetall('test.tag.' + id, function (err, tag) {
+        redis.hgetall('sites.tag.' + id, function (err, tag) {
           if (err) return next(err);
           tags.push(tag);
           --len || proxy.trigger('tags', tags);

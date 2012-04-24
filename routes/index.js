@@ -32,7 +32,7 @@ exports.login = require('../controllers/login').index;
 /**
  * global tag
  */
-exports.tag = require('../controllers/tag').index;
+exports.tag = require('../controllers/tag');
 
 /**
  * server

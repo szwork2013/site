@@ -27,7 +27,7 @@ exports.category = require('./category').index;
 /**
  * site tag
  */
-exports.tag = require('./tag').index;
+exports.tag = require('./tag');
 
 /**
  * site publish

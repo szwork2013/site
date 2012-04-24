@@ -9,10 +9,11 @@ var config = require('../config').config;
 
 mongoose.connect(config.db, function (err) {
   if (err) {
-    console.log('connect to db error: ' + err.message);
+    console.log('connect to mongo server error: ' + err.message);
     process.exit(1);
   }
 });
+
 var redis = require('redis').createClient();
 redis.on("error", function (err) {
   console.log("connect to redis server " + redis.host + ":" + redis.port + " failed - " + err);

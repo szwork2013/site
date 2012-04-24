@@ -28,20 +28,34 @@ exports.getAid = function (dbname, cb) {
   });
 };
 
-exports.cacheTag = function (dbname, tag, cb) {
-  var key = dbname + '.tag.' + tag.id;
+exports.cacheTag = function (tag, cb) {
+  var dbname = tag.db.name;
   var hash = {};
+  hash.id = tag._id;
   hash.name = tag.name;
-  hash.title = tag.title || '';
   hash.url = tag.url;
-  hash.keyword = tag.keyword || '';
-  hash.description = tag.description || '';
   hash.external = tag.external || '';
-  redis.hmset(key, hash, function (err, result) {
-    if (err) return cb(err);
+  if (dbname !== 'sites') {
+    hash.title = tag.title || '';
+    hash.keyword = tag.keyword || '';
+    hash.description = tag.description || '';
+  }
 
-    redis.sadd(dbname + '.tags', tag.id, function(err, result){
+  redis.hmset(dbname + '.tag.' + tag._id, hash, function (err, result) {
+    if (err) return cb(err);
+    redis.sadd(dbname + '.tags', tag._id, function(err, result){
       cb(err, result);
+    });
+  });
+};
+
+exports.deleteTag = function (tag, cb) {
+  var dbname = tag.db.name;
+  redis.srem(dbname + '.tags', tag._id, function (err, result){
+    if (err) return cb(err);
+    redis.del(dbname + '.tag.' + tag._id, function (err, result){
+      if (err) return cb(err);
+      cb(null, result);
     });
   });
 };
@@ -56,7 +70,6 @@ exports.pushToCategory = function (dbname, category, aid, cb) {
 
 exports.pushToTag = function (dbname, tag, aid, cb) {
   var key = dbname + '.tag.' + tag + '.articles';
-
   redis.lpush(key, aid, function (err, result) {
     cb(err, result);
   });

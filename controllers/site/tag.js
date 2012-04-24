@@ -32,7 +32,15 @@ exports.index = function (req, res, next) {
       if (err) {
         res.message('标签添加失败。' + err, 0);
       } else {
-        res.message('标签添加成功。');
+        var message = '标签添加成功。';
+        cache.cacheTag(tag, function (err, result) {
+          if (err) {
+            message += '缓存失败！' + err;
+            res.message(message, 0);
+          } else {
+            res.message(message);
+          }
+        });
       }
     });
   } else if (req.method === 'PUT') {
@@ -51,10 +59,9 @@ exports.index = function (req, res, next) {
           res.message('标签修改失败！' + err, 0);
         } else {
           var message = '标签修改成功。';
-
-          cache.cacheTag(tag.db.name, tag, function(err, result){
+          cache.cacheTag(tag, function (err, result) {
             if (err) {
-              message += '缓存到redis服务器失败！';
+              message += '缓存失败！' + err;
               res.message(message, 0);
             } else {
               res.message(message);
@@ -72,9 +79,42 @@ exports.index = function (req, res, next) {
         if (err) {
           res.message('标签删除失败！', 0);
         } else {
-          res.message('标签删除成功。');
+          var message = '标签删除成功。';
+          cache.deleteTag(tag, function (err, result) {
+            if (err) {
+              message += '缓存删除失败！' + err;
+              res.message(message, 0);
+            } else {
+              res.message(message, 1, '../tag');
+            }
+          });
         }
       });
     });
   }
+};
+
+exports.cache = function (req, res, next) {
+  var dbname = req.params.domain.replace(/\./g, '');
+  var conn = pool(dbname);
+
+  var Tags = conn.model('Tags', domain.TagSchema);
+
+  Tags.find(function (err, tags) {
+    if (err) {
+      return res.message('标签加载失败！', 0);
+    }
+
+    var proxy = EventProxy.create();
+    proxy.after('add', tags.length, function () {
+      res.message('标签缓存成功。', 1, '../tag');
+    });
+
+    tags.forEach(function (tag) {
+      cache.cacheTag(tag, function (err, result) {
+        if (err) return next(err);
+        proxy.trigger('add');
+      });
+    });
+  });
 };

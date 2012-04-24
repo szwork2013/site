@@ -10,7 +10,7 @@ var ObjectId = Schema.ObjectId;
 exports.ArticleSchema = new Schema({
   title: {type: String, unique: true, required: true, trim: true},
   url: {type: String, unique: true, required: true, trim: true},
-  tag: {type: [ObjectId], index: true},
+  tags: {type: [ObjectId], index: true},
   category: {type: ObjectId, index: true, required: true},
   keyword: {type: String},
   description: {type: String},
@@ -58,15 +58,15 @@ var TagSchema = new Schema({
 });
 
 TagSchema.statics.list = function (cb) {
-  this.find({}, function (err, data) {
+  this.find().desc('_id').run(function (err, data) {
     if (err) return cb(err, null);
 
-    var tags = {};
-    data.forEach(function (tag) {
-      tags[tag._id] = tag;
+    var categories = {};
+    data.forEach(function (category) {
+      categories[category._id] = category;
     });
 
-    cb(null, data, tags);
+    cb(null, data, categories);
   });
 };
 
