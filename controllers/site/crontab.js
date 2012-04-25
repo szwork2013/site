@@ -22,25 +22,27 @@ exports.index = function (req, res, next) {
   proxy.assign('drafts', 'tags', 'siteTags', function (drafts, tags, siteTags) {
     tags = siteTags.concat(tags);
 
-    drafts.forEach(function (draft) {
-      publish.article(draft, tags, function (err, article, content) {
-        if (err) return next(err);
+    /*
+     drafts.forEach(function (draft) {
+     publish.article(draft, tags, function (err, article, content) {
+     if (err) return next(err);
 
-        publish.content(article, content, tags, function(err, content) {
-          if (err) return next(err);
-          //console.log(content);
-        });
+     publish.content(article, content, tags, function(err, content) {
+     if (err) return next(err);
+     //console.log(content);
+     });
 
 
-        if (article.tags.length) {
-          article.tags.forEach(function(tag){
-            if (siteTagIds.indexOf(tag) === -1) {
+     if (article.tags.length) {
+     article.tags.forEach(function(tag){
+     if (siteTagIds.indexOf(tag) === -1) {
 
-            }
-          });
-        }
-      });
-    });
+     }
+     });
+     }
+     });
+     });
+     */
 
     res.send('tag: ' + tags.length);
   });
@@ -56,27 +58,29 @@ exports.index = function (req, res, next) {
 
     redis.smembers(dbname + '.tags', function (err, ids) {
       if (err) return next(err);
-      var len = ids.length;
       var siteTags = [];
       siteTagIds = ids;
-      ids.forEach(function (id) {
+      ids.forEach(function (id, pos) {
         redis.hgetall(dbname + '.tag.' + id, function (err, tag) {
           if (err) return next(err);
           siteTags.push(tag);
-          --len || proxy.trigger('siteTags', siteTags);
+          if (pos === ids.length - 1) {
+            proxy.trigger('siteTags', siteTags);
+          }
         });
       });
     });
 
     redis.sdiff('sites.tags', dbname + '.tags', function (err, tagIds) {
       if (err) return next(err);
-      var len = tagIds.length;
       var tags = [];
-      tagIds.forEach(function (id) {
+      tagIds.forEach(function (id, pos) {
         redis.hgetall('sites.tag.' + id, function (err, tag) {
           if (err) return next(err);
           tags.push(tag);
-          --len || proxy.trigger('tags', tags);
+          if (pos === tagIds.length - 1) {
+            proxy.trigger('tags', tags);
+          }
         });
       });
     });
@@ -84,7 +88,6 @@ exports.index = function (req, res, next) {
 
   Site.findOne({domain: req.params.domain}, function (err, site) {
     if (err) return next(err);
-
     proxy.trigger('site', site);
   });
 
