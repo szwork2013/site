@@ -22,27 +22,30 @@ exports.index = function (req, res, next) {
   proxy.assign('drafts', 'tags', 'siteTags', function (drafts, tags, siteTags) {
     tags = siteTags.concat(tags);
 
-    /*
-     drafts.forEach(function (draft) {
-     publish.article(draft, tags, function (err, article, content) {
-     if (err) return next(err);
+    drafts.forEach(function (draft) {
+      publish.article(draft, tags, function (err, article, content, tags) {
+        if (err) return next(err);
 
-     publish.content(article, content, tags, function(err, content) {
-     if (err) return next(err);
-     //console.log(content);
-     });
+        publish.content(article, content, tags, function (err, content) {
+          if (err) return next(err);
+          //console.log(content.normal);
+        });
 
+        if (tags.length) {
+          tags.forEach(function (tag) {
+            if (siteTagIds.indexOf(tag) === -1) {
+              siteTagIds.push(tag);
+              publish.tag(tag, draft.db, function (err, tag) {
+                if (err) return next(err);
+                console.log(tag);
+              });
+            }
+          });
+        }
 
-     if (article.tags.length) {
-     article.tags.forEach(function(tag){
-     if (siteTagIds.indexOf(tag) === -1) {
-
-     }
-     });
-     }
-     });
-     });
-     */
+        console.log(draft);
+      });
+    });
 
     res.send('tag: ' + tags.length);
   });
@@ -52,7 +55,6 @@ exports.index = function (req, res, next) {
 
     Draft.rfind(site.publish.count, function (err, drafts) {
       if (err) return next(err);
-
       proxy.trigger('drafts', drafts);
     });
 
